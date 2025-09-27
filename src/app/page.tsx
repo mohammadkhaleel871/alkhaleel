@@ -34,9 +34,12 @@ export default function HomePage() {
         {/* Hero Section */}
         <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white overflow-hidden bg-background">
           <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center text-foreground">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tight">
-              الخليل
-            </h1>
+            <div className="flex flex-col items-center justify-center">
+                <h1 className="text-6xl md:text-8xl font-headline font-bold tracking-tight text-primary">
+                الخليل
+                </h1>
+                <BookOpen className="w-16 h-16 md:w-20 md:h-20 text-secondary mt-2" />
+            </div>
             <p className="mt-4 text-lg md:text-2xl font-medium">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
