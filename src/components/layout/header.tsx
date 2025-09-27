@@ -71,9 +71,6 @@ export function Header() {
         <SidebarTrigger />
       </div>
        <Link href="/" className="flex items-center gap-2 font-bold text-lg md:hidden">
-          <div className="w-6 h-6 flex items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-base">
-              خ
-          </div>
           <span>الخليل</span>
         </Link>
       <h1 className="text-lg font-semibold md:text-xl hidden md:block">{title}</h1>
