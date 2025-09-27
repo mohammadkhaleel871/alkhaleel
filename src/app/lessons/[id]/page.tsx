@@ -15,6 +15,29 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { BackButton } from '@/components/layout/back-button';
 
+// Helper function to convert YouTube URL to embeddable URL
+function getYouTubeEmbedUrl(url: string): string {
+  if (!url) return '';
+  try {
+    const urlObj = new URL(url);
+    if (urlObj.hostname === 'youtu.be') {
+      return `https://www.youtube.com/embed/${urlObj.pathname.slice(1)}`;
+    }
+    if (urlObj.hostname.includes('youtube.com') && urlObj.pathname === '/watch') {
+      const videoId = urlObj.searchParams.get('v');
+      return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+    }
+     if (urlObj.hostname.includes('youtube.com') && urlObj.pathname.startsWith('/embed/')) {
+      return url;
+    }
+  } catch (error) {
+    console.error('Invalid URL:', error);
+    return url; // Return original url if parsing fails
+  }
+  return url; // Return original url if it's not a standard watch/short URL
+}
+
+
 export default function LessonDetailPage() {
   const params = useParams<{ id: string }>();
   const [lesson, setLesson] = useState<Lesson | null>(null);
@@ -40,6 +63,8 @@ export default function LessonDetailPage() {
   if (!lesson) {
     notFound();
   }
+  
+  const embedUrl = getYouTubeEmbedUrl(lesson.videoUrl);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -50,7 +75,7 @@ export default function LessonDetailPage() {
             <iframe
               width="100%"
               height="100%"
-              src={lesson.videoUrl}
+              src={embedUrl}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
