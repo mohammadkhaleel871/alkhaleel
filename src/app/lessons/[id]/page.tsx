@@ -1,9 +1,7 @@
 
-'use client'
 
-import { useState, useEffect } from 'react';
-import type { Lesson } from '@/lib/types';
-import { notFound, useParams } from 'next/navigation';
+import { type Lesson } from '@/lib/types';
+import { notFound } from 'next/navigation';
 import {
   Card,
   CardContent,
@@ -13,7 +11,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { BackButton } from '@/components/layout/back-button';
 import { getAllLessons } from '@/lib/lessons-firestore';
 
@@ -40,33 +38,9 @@ function getYouTubeEmbedUrl(url: string): string {
 }
 
 
-export default function LessonDetailPage() {
-  const params = useParams<{ id: string }>();
-  const [lesson, setLesson] = useState<Lesson | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchLesson() {
-        const allLessons = await getAllLessons();
-        const currentLesson = allLessons.find((l) => l.id === params.id);
-        if (currentLesson) {
-            setLesson(currentLesson);
-        }
-        setIsLoading(false);
-    }
-    if (params.id) {
-        fetchLesson();
-    }
-  }, [params.id]);
-
-
-  if (isLoading) {
-    return (
-        <div className="flex items-center justify-center h-full">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-        </div>
-    );
-  }
+export default async function LessonDetailPage({ params }: { params: { id: string } }) {
+  const allLessons = await getAllLessons();
+  const lesson = allLessons.find((l) => l.id === params.id);
 
   if (!lesson) {
     notFound();
