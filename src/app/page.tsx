@@ -34,16 +34,6 @@ export default function HomePage() {
         {/* Hero Section */}
         <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white overflow-hidden bg-background">
           <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center text-foreground">
-             <div className="mb-8">
-                <Image
-                    src="https://storage.googleapis.com/project-os-prod-336a9.appspot.com/00f9a4128f73111831e784534f19818b.png"
-                    alt="شعار الخليل"
-                    width={250}
-                    height={250}
-                    className="object-contain"
-                    priority
-                />
-             </div>
             <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tight">
               منصة الخليل
             </h1>
