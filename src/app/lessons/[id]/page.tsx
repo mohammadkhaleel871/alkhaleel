@@ -73,8 +73,6 @@ export default function LessonDetailPage() {
         <CardHeader className="p-0">
           <div className="relative w-full aspect-video">
             <iframe
-              width="100%"
-              height="100%"
               src={embedUrl}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
