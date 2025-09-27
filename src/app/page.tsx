@@ -103,10 +103,10 @@ export default function HomePage() {
 
            {/* Core Sections Quick Access */}
           <div className="relative container mx-auto px-4 z-10 md:transform md:-translate-y-24">
-            <div className="grid grid-cols-3 gap-4 md:gap-8">
+            <div className="grid grid-cols-3 gap-2 md:gap-8">
               {sections.map((section) => (
                 <Link href={section.href} key={section.title} className="group">
-                  <div className="relative text-center h-full p-6 transition-all duration-300 ease-in-out border-2 border-transparent hover:border-secondary/50 bg-card hover:shadow-2xl hover:shadow-secondary/10 rounded-xl overflow-hidden">
+                  <div className="relative text-center h-full p-4 md:p-6 transition-all duration-300 ease-in-out border-2 border-transparent hover:border-secondary/50 bg-card hover:shadow-2xl hover:shadow-secondary/10 rounded-xl overflow-hidden">
                      {/* Decorative geometric background */}
                     <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity">
                          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="geom" patternUnits="userSpaceOnUse" width="40" height="40"><path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="hsl(var(--secondary))" strokeWidth="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#geom)"/></svg>
