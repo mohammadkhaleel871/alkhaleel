@@ -35,7 +35,7 @@ export default function GradeDashboardPage({ params }: { params: { id: string } 
     (p) => p.completed
   ).length;
   const totalLessons = gradeLessons.length;
-  const overallProgress = hasStartedLearning ? (completedLessons / totalLessons) * 100 : 0;
+  const overallProgress = hasStartedLearning && totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
   
   const relevantProgress = gradeProgress.filter((p) => p.quizScore !== null);
   const averageScore =
@@ -59,7 +59,7 @@ export default function GradeDashboardPage({ params }: { params: { id: string } 
   }, {} as Record<string, typeof gradeLessons>);
 
   const units = ['الوحدة الأولى', 'الوحدة الثانية', 'الوحدة الثالثة', 'الوحدة الرابعة', 'الوحدة الخامسة'];
-  const lessonsForSelectedUnit = selectedUnit ? lessonsByUnit[selectedUnit] : [];
+  const lessonsForSelectedUnit = selectedUnit ? lessonsByUnit[selectedUnit] || [] : [];
 
   return (
     <div>
@@ -126,11 +126,11 @@ export default function GradeDashboardPage({ params }: { params: { id: string } 
           <CardHeader>
             <CardTitle>وحدات {grade.name}</CardTitle>
             <CardDescription>
-              {totalLessons > 0 ? 'اختر وحدة للبدء أو لمراجعة الدروس.' : 'لا توجد وحدات متاحة حاليًا لهذا الصف.'}
+              {units.length > 0 ? 'اختر وحدة للبدء أو لمراجعة الدروس.' : 'لا توجد وحدات متاحة حاليًا لهذا الصف.'}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {totalLessons > 0 ? (
+            {units.length > 0 ? (
                 <div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-8">
                         {units.map((unit) => (
