@@ -19,26 +19,10 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
                 </linearGradient>
             </defs>
 
-            {/* "الخليل" in the specified Kufic style */}
-            <g fill="url(#green-gradient-text)">
-                {/* ل */}
-                <path d="M54 30H42V72H54V30Z" />
-                {/* ي */}
-                <path d="M70 43V30H88V43H70Z" />
-                <path d="M70 47H88V61H70V47Z" />
-                <circle cx="76" cy="67" r="3" />
-                <circle cx="82" cy="67" r="3" />
-                {/* ل */}
-                <path d="M92 30H104V72H92V30Z" />
-                {/* خ */}
-                <path d="M108 43V30H136V43H127.333L122 49L116.667 43H108Z" />
-                <path d="M122 53L116.667 59H127.333L122 53Z" />
-                <circle cx="122" cy="22" r="3" />
-                {/* ل */}
-                <path d="M140 30H152V72H140V30Z" />
-                {/* ا */}
-                <path d="M156 30H168V72H156V30Z" />
-            </g>
+            {/* "الخليل" text with Amiri font */}
+            <text x="100" y="60" fontFamily="Amiri, serif" fontSize="48" fontWeight="bold" fill="url(#green-gradient-text)" textAnchor="middle" dominantBaseline="middle">
+                الخليل
+            </text>
             
             {/* Golden Pen base */}
             <g fill="url(#gold-gradient-pen)">
@@ -109,7 +93,7 @@ export default function HomePage() {
               <LogoIcon className="w-full h-full" />
             </div>
             
-            <p className="mt-4 text-2xl md:text-3xl font-medium text-white/90">
+            <p className="mt-4 text-2xl md:text-3xl font-medium text-white/90 font-headline">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
             <p className="mt-3 max-w-2xl mx-auto text-base md:text-lg text-white/70">
