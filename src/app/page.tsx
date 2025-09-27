@@ -35,7 +35,7 @@ export default function HomePage() {
         <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white overflow-hidden bg-background">
           <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center text-foreground">
             <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tight">
-              الخليلك
+              الخليل
             </h1>
             <p className="mt-4 text-lg md:text-2xl font-medium">
               بوابتك المتكاملة لإتقان اللغة العربية.
