@@ -60,9 +60,9 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative w-full h-[75vh] flex items-center justify-center text-center overflow-hidden">
-          {/* Background Texture & Overlay */}
+        {/* Hero and Sections Container */}
+        <section className="relative w-full pb-8 md:pb-12">
+           {/* Background Texture & Overlay */}
           <div
             className="absolute inset-0 bg-background"
             style={{ 
@@ -88,7 +88,7 @@ export default function HomePage() {
               </svg>
           </div>
 
-          <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center">
+          <div className="relative flex flex-col min-h-[75vh] items-center justify-center text-center p-4 max-w-4xl mx-auto z-10">
             <div className="w-64 h-40 md:w-80 md:h-48">
               <LogoIcon className="w-full h-full" />
             </div>
@@ -100,11 +100,9 @@ export default function HomePage() {
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
           </div>
-        </section>
 
-        {/* Core Sections Quick Access */}
-        <section className="relative pt-0 pb-8 md:pb-12 bg-background transform -translate-y-24">
-          <div className="container mx-auto px-4">
+           {/* Core Sections Quick Access */}
+          <div className="relative container mx-auto px-4 z-10 transform -translate-y-24">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {sections.map((section) => (
                 <Link href={section.href} key={section.title} className="group">
@@ -126,6 +124,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
       </main>
 
        {/* Footer */}
