@@ -24,9 +24,14 @@ export default function AdminInsightsPage() {
     
     useEffect(() => {
         async function fetchLessons() {
-            const lessons = await getAllLessons();
-            setAllLessons(lessons);
-            setIsLoadingLessons(false);
+            try {
+                const lessons = await getAllLessons();
+                setAllLessons(lessons);
+            } catch (e) {
+                setError("فشل تحميل الدروس. قد تكون هناك مشكلة في الاتصال بقاعدة البيانات.");
+            } finally {
+                setIsLoadingLessons(false);
+            }
         }
         fetchLessons();
     }, []);

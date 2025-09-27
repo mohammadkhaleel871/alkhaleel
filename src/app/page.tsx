@@ -125,11 +125,6 @@ export default function HomePage() {
        {/* Footer */}
        <footer className="bg-card text-muted-foreground py-6 border-t border-border">
             <div className="container mx-auto px-4 text-center">
-                <div className="flex justify-center gap-6 mb-4">
-                    <Link href="#" className="text-sm hover:text-secondary transition-colors">من نحن</Link>
-                    <Link href="#" className="text-sm hover:text-secondary transition-colors">تواصل معنا</Link>
-                    <Link href="#" className="text-sm hover:text-secondary transition-colors">سياسة الخصوصية</Link>
-                </div>
                 <p className="text-sm">&copy; {new Date().getFullYear()} الخليل. جميع الحقوق محفوظة.</p>
             </div>
         </footer>

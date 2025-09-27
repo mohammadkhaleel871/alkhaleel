@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -334,13 +335,15 @@ const SidebarInset = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"main">
 >(({ className, ...props }, ref) => {
-  const { open, setOpen, openMobile, setOpenMobile, isMobile } = useSidebar();
+  const { open, isMobile, openMobile, setOpenMobile } = useSidebar();
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isMobile && openMobile) {
+        // Prevent closing if the click is on an interactive element inside the sidebar content
+      if((e.target as HTMLElement).closest('[data-sidebar="sidebar"]')) {
+          return;
+      }
       setOpenMobile(false);
-    } else if (!isMobile && open) {
-      setOpen(false);
     }
   };
 
