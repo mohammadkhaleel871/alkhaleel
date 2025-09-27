@@ -65,11 +65,6 @@ export default function HomePage() {
            {/* Background Texture & Overlay */}
           <div
             className="absolute inset-0 bg-background"
-            style={{ 
-              backgroundImage: 'url(/papyrus-dark.png)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-             }}
           >
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/70 to-background"></div>
           </div>
