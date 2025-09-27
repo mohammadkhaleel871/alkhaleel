@@ -88,7 +88,7 @@ export default function HomePage() {
               </svg>
           </div>
 
-          <div className="relative flex flex-col min-h-dvh items-center justify-center text-center p-4 max-w-4xl mx-auto z-10">
+          <div className="relative flex flex-col min-h-[75vh] items-center justify-center text-center p-4 max-w-4xl mx-auto z-10">
             <div className="w-64 h-40 md:w-80 md:h-48">
               <LogoIcon className="w-full h-full" />
             </div>
