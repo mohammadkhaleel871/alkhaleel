@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { BackButton } from "@/components/layout/back-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,8 @@ import { BookOpen, Percent, ClipboardCheck, Activity, Book, X } from "lucide-rea
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export default function GradeDashboardPage({ params }: { params: { id: string } }) {
+export default function GradeDashboardPage({ params: paramsProp }: { params: { id: string } }) {
+  const params = use(Promise.resolve(paramsProp));
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
 
   const grade = grades.find((g) => g.id === params.id);
