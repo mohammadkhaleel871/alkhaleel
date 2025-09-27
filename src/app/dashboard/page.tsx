@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -138,7 +139,7 @@ export default function Dashboard() {
         <Card className="rounded-full w-28 h-28 flex flex-col items-center justify-center text-center p-2">
           <CardHeader className="p-0">
             <ClipboardCheck className="h-4 w-4 text-muted-foreground mx-auto mb-1" />
-            <CardTitle className="text-xs font-medium">الدروس المكتملة</CardTitle>
+            <CardTitle className="text-sm font-medium">الدروس المكتملة</CardTitle>
           </CardHeader>
           <CardContent className="p-0 mt-1">
             <div className="text-xl font-bold">+{completedLessons}</div>
