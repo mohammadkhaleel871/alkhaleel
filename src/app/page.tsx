@@ -89,14 +89,14 @@ export default function HomePage() {
           </div>
 
           <div className="relative flex flex-col min-h-[75vh] items-center justify-center text-center p-4 max-w-4xl mx-auto z-10">
-            <div className="w-64 h-40 md:w-80 md:h-48">
+            <div className="w-80 h-48 md:w-96 md:h-56">
               <LogoIcon className="w-full h-full" />
             </div>
             
-            <p className="mt-4 text-2xl md:text-3xl font-medium text-white/90 font-headline">
+            <p className="mt-4 text-3xl md:text-4xl font-medium text-white/90 font-headline">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
-            <p className="mt-3 max-w-2xl mx-auto text-base md:text-lg text-white/70">
+            <p className="mt-3 max-w-2xl mx-auto text-lg md:text-xl text-white/70">
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
           </div>
