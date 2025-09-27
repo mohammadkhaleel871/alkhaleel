@@ -141,9 +141,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             )}
         </SidebarFooter>
       </Sidebar>
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
         {pathname !== '/' && <Header />}
-        <main className={pathname !== '/' ? 'p-4 sm:p-6 lg:p-8' : ''}>{children}</main>
+        <main className={pathname !== '/' ? 'p-4 sm:p-6 lg:p-8 flex-1' : 'flex-1'}>{children}</main>
       </div>
     </SidebarProvider>
   );
