@@ -101,10 +101,12 @@ export default function AdminPage() {
     try {
         if (lessonToEdit) {
             await updateLesson(lessonData);
+            setAllLessons(allLessons.map(l => l.id === lessonData.id ? lessonData : l));
         } else {
             await addLesson(lessonData);
+            setAllLessons([...allLessons, lessonData]);
         }
-        await fetchLessons(); // Refetch lessons
+        // No need to refetch, update state locally for responsiveness
     } catch (e) {
         toast({
             title: 'خطأ',
