@@ -33,10 +33,10 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
                 الخليل
             </text>
 
-            {/* Open Book */}
-            <path d="M30 100 C 40 85, 60 80, 100 85 S 160 85, 170 100 L 100 115 Z" fill="hsl(var(--secondary))" />
-            <path d="M35 102 C 45 90, 65 85, 100 90 S 155 90, 165 102" fill="none" stroke="hsl(45, 100%, 70%)" strokeWidth="1.5" />
-            <path d="M100 90 V 112" stroke="hsl(45, 100%, 30%)" strokeWidth="1" />
+            {/* Three Descending Golden Lines */}
+            <path d="M60 95 H 140" stroke="hsl(var(--secondary))" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M70 105 H 130" stroke="hsl(var(--secondary))" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M80 115 H 120" stroke="hsl(var(--secondary))" strokeWidth="2.5" strokeLinecap="round" />
         </svg>
     )
 }
