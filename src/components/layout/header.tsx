@@ -64,15 +64,12 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:h-16 sm:px-6">
-      <div className="flex items-center gap-2">
-        <SidebarTrigger className="md:flex hidden" />
-      </div>
-       <div className="flex items-center gap-2 md:hidden">
+      <div className="flex items-center gap-2 md:hidden">
         <SidebarTrigger />
-      </div>
-       <Link href="/" className="flex items-center gap-2 font-bold text-lg md:hidden">
+        <Link href="/" className="flex items-center gap-2 font-bold text-lg">
           <span>الخليل</span>
         </Link>
+      </div>
       <h1 className="text-lg font-semibold md:text-xl hidden md:block">{title}</h1>
       <div className="ml-auto flex items-center gap-4">
         {loading ? (

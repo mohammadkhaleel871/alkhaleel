@@ -56,7 +56,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-3 p-2">
-            <span className="text-lg font-semibold">الخليل</span>
+            <Link href="/" className="flex items-center gap-2 font-bold text-lg">
+                <span>الخليل</span>
+            </Link>
           </div>
         </SidebarHeader>
         <SidebarContent>
