@@ -26,8 +26,6 @@ export async function getAllLessons(category?: Lesson['category']): Promise<Less
     querySnapshot.forEach((doc) => {
       lessonsList.push(doc.data() as Lesson);
     });
-    // Sort lessons by ID client-side
-    lessonsList.sort((a, b) => (a.id > b.id ? 1 : -1));
     return lessonsList;
   } catch (error) {
     console.error("Error getting all lessons: ", error);
