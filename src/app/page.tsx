@@ -98,9 +98,9 @@ export default function HomePage() {
 
            {/* Core Sections Quick Access */}
           <div className="relative container mx-auto px-4 z-10 md:transform md:-translate-y-36">
-            <div className="grid grid-cols-3 gap-2">
+            <div className="flex flex-col md:flex-row gap-4">
               {sections.map((section) => (
-                <Link href={section.href} key={section.title} className="group">
+                <Link href={section.href} key={section.title} className="group flex-1">
                   <div className="relative text-center h-full p-4 transition-all duration-300 ease-in-out border-2 border-transparent hover:border-secondary/50 bg-card hover:shadow-2xl hover:shadow-secondary/10 rounded-xl overflow-hidden">
                      {/* Decorative geometric background */}
                     <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity">
