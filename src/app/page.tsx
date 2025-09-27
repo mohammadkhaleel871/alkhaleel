@@ -32,15 +32,15 @@ export default function HomePage() {
     <div className="flex flex-col min-h-[calc(100vh-4rem)]">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white overflow-hidden bg-background">
+        <section className="w-full py-20 md:py-32 flex items-center justify-center text-center bg-background">
           <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center text-foreground">
             <div className="flex flex-col items-center justify-center">
-                <h1 className="text-6xl md:text-8xl font-headline font-bold tracking-tight text-primary">
+                <h1 className="text-8xl md:text-9xl font-headline font-bold tracking-tight text-primary">
                 الخليل
                 </h1>
-                <BookOpen className="w-16 h-16 md:w-20 md:h-20 text-secondary mt-2" />
+                <BookOpen className="w-20 h-20 md:w-24 md:h-24 text-secondary mt-4" />
             </div>
-            <p className="mt-4 text-lg md:text-2xl font-medium">
+            <p className="mt-6 text-xl md:text-2xl font-medium">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
             <p className="mt-2 max-w-2xl mx-auto text-base md:text-lg text-muted-foreground">
@@ -50,12 +50,12 @@ export default function HomePage() {
         </section>
 
         {/* Core Sections Quick Access */}
-        <section className="py-12 md:py-20 bg-background">
+        <section className="py-12 md:py-20 bg-muted/40">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {sections.map((section) => (
                 <Link href={section.href} key={section.title} className="group">
-                  <Card className="text-center h-full transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-2 border-2 border-transparent hover:border-primary">
+                  <Card className="text-center h-full transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-2 border-2 border-transparent hover:border-primary bg-card">
                     <CardHeader className="items-center">
                       <div className="p-3 bg-primary/10 rounded-full mb-3 group-hover:scale-110 transition-transform">
                         {section.icon}
