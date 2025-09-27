@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -40,7 +40,7 @@ const nonCurriculumGrade: Grade = { id: 'general', name: 'عام' };
 export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] }) {
   const { toast } = useToast();
   const [allLessons, setAllLessons] = useState<Lesson[]>(initialLessons);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // State for dialogs
   const [isAddEditDialogOpen, setIsAddEditDialogOpen] = useState(false);
@@ -50,12 +50,25 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [defaultCategory, setDefaultCategory] = useState<Lesson['category']>('jordanian-curriculum');
 
+  useEffect(() => {
+    fetchLessons();
+  }, []);
 
   const fetchLessons = async () => {
     setIsLoading(true);
-    const lessons = await getAllLessons();
-    setAllLessons(lessons);
-    setIsLoading(false);
+    try {
+      const lessons = await getAllLessons();
+      setAllLessons(lessons);
+    } catch (error) {
+      console.error("Failed to fetch lessons:", error);
+      toast({
+        title: 'خطأ في جلب البيانات',
+        description: 'لا يمكن الوصول إلى قاعدة البيانات حاليًا. قد تكون هناك مشكلة في الاتصال.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const handleAddClick = (grade: Grade, category: Lesson['category']) => {
@@ -99,7 +112,6 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
   }
 
   const onLessonSubmit = async (lessonData: Lesson, isEditing: boolean) => {
-    setIsLoading(true);
     // When editing, if the grade is 'عام', but category is 'jordanian-curriculum', we should prompt for a real grade.
     // For now, the form handles this logic.
     // Let's ensure non-curriculum items have a generic grade.
@@ -121,7 +133,6 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
             variant: 'destructive',
         });
     } finally {
-        setIsLoading(false);
         setIsAddEditDialogOpen(false);
         setLessonToEdit(null);
     }
@@ -136,7 +147,7 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
   }
 
   const renderLessonList = (lessons: Lesson[]) => {
-      if (lessons.length === 0) {
+      if (lessons.length === 0 && !isLoading) {
           return <p className="text-muted-foreground p-3">لا يوجد محتوى في هذا القسم.</p>;
       }
       return lessons.map((lesson) => (
@@ -167,7 +178,7 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
 
   if (isLoading) {
     return (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-screen">
             <Loader2 className="w-12 h-12 animate-spin text-primary" />
         </div>
     );
