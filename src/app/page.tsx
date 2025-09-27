@@ -20,7 +20,7 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
             </defs>
 
             {/* "الخليل" text with Amiri font */}
-            <text x="100" y="50" fontFamily="'PT Sans', sans-serif" fontSize="56" fill="url(#green-gradient-text)" textAnchor="middle" dominantBaseline="middle">
+            <text x="100" y="48" fontFamily="'PT Sans', sans-serif" fontSize="56" fill="url(#green-gradient-text)" textAnchor="middle" dominantBaseline="middle">
                 الخليل
             </text>
             
@@ -61,7 +61,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <main className="flex-1">
         {/* Hero and Sections Container */}
-        <section className="relative w-full h-auto pt-0 pb-8 md:pb-12">
+        <section className="relative w-full h-auto pt-0 pb-12">
            {/* Background Texture & Overlay */}
           <div
             className="absolute inset-0 bg-background"
@@ -89,7 +89,7 @@ export default function HomePage() {
           </div>
 
           <div className="relative flex flex-col items-center text-center p-4 pt-12 md:pt-20 max-w-4xl mx-auto z-10 min-h-[50vh] md:min-h-[65vh]">
-            <div className="w-48 h-36 md:w-80 md:h-64">
+            <div className="w-48 h-32 md:w-80 md:h-56">
               <LogoIcon className="w-full h-full" />
             </div>
             
