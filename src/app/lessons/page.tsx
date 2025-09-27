@@ -29,21 +29,19 @@ export default function LessonsPage() {
   useEffect(() => {
     async function fetchLessons() {
       setIsLoading(true);
-      const lessons = await getAllLessons();
+      // Fetch only general lessons
+      const lessons = await getAllLessons('general-lessons');
       setAllLessons(lessons);
       setIsLoading(false);
     }
     fetchLessons();
   }, []);
 
-  const generalLessons = useMemo(() => {
-    const filteredByCategory = allLessons.filter(lesson => lesson.category === 'general-lessons');
-
+  const filteredLessons = useMemo(() => {
     if (!searchTerm) {
-        return filteredByCategory;
+        return allLessons;
     }
-
-    return filteredByCategory.filter(lesson =>
+    return allLessons.filter(lesson =>
         lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         lesson.summary.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -72,9 +70,9 @@ export default function LessonsPage() {
         <div className="flex justify-center items-center py-10">
           <Loader2 className="w-12 h-12 animate-spin text-primary" />
         </div>
-      ) : generalLessons.length > 0 ? (
+      ) : filteredLessons.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {generalLessons.map((lesson) => {
+            {filteredLessons.map((lesson) => {
             const lessonImage = PlaceHolderImages.find(p => p.id === lesson.imageId);
             return (
                 <Card key={lesson.id} className="flex flex-col">

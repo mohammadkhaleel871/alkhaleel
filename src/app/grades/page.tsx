@@ -8,10 +8,12 @@ import type { Lesson } from '@/lib/types';
 import { getAllLessons } from '@/lib/lessons-firestore';
 
 export default async function GradesPage() {
-    const allLessons = await getAllLessons();
+    // Fetch only the lessons relevant to this category
+    const curriculumLessons = await getAllLessons('jordanian-curriculum');
 
     const getLessonCountForGrade = (gradeName: string) => {
-        return allLessons.filter(lesson => lesson.grade === gradeName && lesson.category === 'jordanian-curriculum').length;
+        // The filtering is now much faster as it's done on a smaller array
+        return curriculumLessons.filter(lesson => lesson.grade === gradeName).length;
     }
 
   return (

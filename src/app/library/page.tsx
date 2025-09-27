@@ -29,21 +29,19 @@ export default function LibraryPage() {
   useEffect(() => {
     async function fetchResources() {
       setIsLoading(true);
-      const lessons = await getAllLessons();
+      // Fetch only library resources
+      const lessons = await getAllLessons('library');
       setAllResources(lessons);
       setIsLoading(false);
     }
     fetchResources();
   }, []);
 
-  const libraryResources = useMemo(() => {
-    const filteredByCategory = allResources.filter(lesson => lesson.category === 'library');
-
+  const filteredResources = useMemo(() => {
     if (!searchTerm) {
-        return filteredByCategory;
+        return allResources;
     }
-
-    return filteredByCategory.filter(resource =>
+    return allResources.filter(resource =>
         resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         resource.summary.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -72,9 +70,9 @@ export default function LibraryPage() {
         <div className="flex justify-center items-center py-10">
           <Loader2 className="w-12 h-12 animate-spin text-primary" />
         </div>
-      ) : libraryResources.length > 0 ? (
+      ) : filteredResources.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {libraryResources.map((resource) => {
+            {filteredResources.map((resource) => {
             const resourceImage = PlaceHolderImages.find(p => p.id === resource.imageId);
             const isVideo = resource.videoUrl && resource.videoUrl.length > 0;
             return (

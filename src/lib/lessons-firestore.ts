@@ -1,20 +1,26 @@
 
-import { collection, doc, getDocs, setDoc, deleteDoc, orderBy, query } from 'firebase/firestore';
+import { collection, doc, getDocs, setDoc, deleteDoc, orderBy, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 import type { Lesson } from './types';
 
 const LESSONS_COLLECTION = 'lessons';
 
 /**
- * Retrieves all lessons from Firestore, ordered by creation time.
+ * Retrieves lessons from Firestore, optionally filtered by category.
+ * @param category - Optional category to filter lessons by.
  * @returns A promise that resolves to an array of lessons.
  */
-export async function getAllLessons(): Promise<Lesson[]> {
+export async function getAllLessons(category?: Lesson['category']): Promise<Lesson[]> {
   try {
     const lessonsCollectionRef = collection(db, LESSONS_COLLECTION);
-    // Order by 'id' which is based on timestamp, to get newest last.
-    // Firestore string sort works for our timestamp-based IDs.
-    const q = query(lessonsCollectionRef, orderBy('id'));
+    
+    let q;
+    if (category) {
+      q = query(lessonsCollectionRef, where('category', '==', category), orderBy('id'));
+    } else {
+      q = query(lessonsCollectionRef, orderBy('id'));
+    }
+
     const querySnapshot = await getDocs(q);
     const lessonsList: Lesson[] = [];
     querySnapshot.forEach((doc) => {
