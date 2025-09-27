@@ -18,17 +18,17 @@ const userAvatar = PlaceHolderImages.find((img) => img.id === 'user-avatar');
 
 
 function getTitle(pathname: string) {
-    if (pathname.startsWith('/admin/insights')) return 'Performance Insights';
-    if (pathname.startsWith('/admin')) return 'Curriculum Management';
+    if (pathname.startsWith('/admin/insights')) return 'رؤى الأداء';
+    if (pathname.startsWith('/admin')) return 'إدارة المناهج';
     if (pathname.startsWith('/lessons/')) {
         if (pathname.endsWith('/quiz')) {
-            return 'Quiz';
+            return 'الاختبار';
         }
-        return 'Lesson Details';
+        return 'تفاصيل الدرس';
     }
-    if (pathname.startsWith('/lessons')) return 'All Lessons';
-    if (pathname.startsWith('/library')) return 'Resource Library';
-    if (pathname.startsWith('/')) return 'Dashboard';
+    if (pathname.startsWith('/lessons')) return 'كل الدروس';
+    if (pathname.startsWith('/library')) return 'مكتبة المصادر';
+    if (pathname.startsWith('/')) return 'لوحة التحكم';
 
     return 'الخليل';
 }
@@ -54,12 +54,12 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>حسابي</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuItem>الإعدادات</DropdownMenuItem>
+            <DropdownMenuItem>الدعم</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem>تسجيل الخروج</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

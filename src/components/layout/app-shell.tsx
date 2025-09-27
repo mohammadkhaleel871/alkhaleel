@@ -31,10 +31,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   const menuItems = [
-    { href: '/', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/lessons', label: 'Lessons', icon: BookOpen },
-    { href: '/library', label: 'Library', icon: Library },
-    { href: '/admin', label: 'Admin', icon: Shield },
+    { href: '/', label: 'لوحة التحكم', icon: LayoutDashboard },
+    { href: '/lessons', label: 'الدروس', icon: BookOpen },
+    { href: '/library', label: 'المكتبة', icon: Library },
+    { href: '/admin', label: 'المشرف', icon: Shield },
   ];
 
   return (

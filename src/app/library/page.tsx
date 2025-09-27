@@ -35,8 +35,8 @@ export default function LibraryPage() {
               )}
               <CardTitle>{resource.title}</CardTitle>
               <Badge variant="secondary" className="w-fit mt-2">
-                {resource.type === 'pdf' && <FileText className="h-3 w-3 mr-1" />}
-                {resource.type === 'video' && <Video className="h-3 w-3 mr-1" />}
+                {resource.type === 'pdf' && <FileText className="h-3 w-3 ml-1" />}
+                {resource.type === 'video' && <Video className="h-3 w-3 ml-1" />}
                 {resource.type.charAt(0).toUpperCase() + resource.type.slice(1)}
               </Badge>
             </CardHeader>
@@ -45,7 +45,7 @@ export default function LibraryPage() {
             </CardContent>
             <CardFooter>
               <Button asChild className="w-full">
-                <Link href={resource.url} target="_blank">View Resource</Link>
+                <Link href={resource.url} target="_blank">عرض المصدر</Link>
               </Button>
             </CardFooter>
           </Card>

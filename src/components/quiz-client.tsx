@@ -55,7 +55,7 @@ export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
 
   const handleGetSuggestions = async () => {
     setIsLoadingSuggestions(true);
-    const performanceSummary = `Student scored ${score.toFixed(0)}% on the quiz for "${lesson.title}". Areas of difficulty can be inferred from incorrect answers.`;
+    const performanceSummary = `حصل الطالب على ${score.toFixed(0)}% في اختبار درس "${lesson.title}". يمكن استنتاج مجالات الصعوبة من الإجابات غير الصحيحة.`;
     const response = await getLearningContentSuggestions({
       quizPerformance: performanceSummary,
       lessonTopic: lesson.title,
@@ -79,23 +79,23 @@ export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
                 <AlertCircle className="h-12 w-12 text-yellow-500" />
               )}
             </div>
-            <CardTitle className="text-2xl">Quiz Completed!</CardTitle>
-            <CardDescription>You have completed the quiz for "{lesson.title}".</CardDescription>
+            <CardTitle className="text-2xl">اكتمل الاختبار!</CardTitle>
+            <CardDescription>لقد أكملت الاختبار لـ "{lesson.title}".</CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-bold mb-2">{score.toFixed(0)}%</p>
-            <p className="text-muted-foreground">Your Score</p>
+            <p className="text-muted-foreground">نتيجتك</p>
 
             {suggestions && (
               <Alert className="mt-6 text-left">
                 <Sparkles className="h-4 w-4" />
-                <AlertTitle>Personalized Suggestions</AlertTitle>
+                <AlertTitle>اقتراحات مخصصة</AlertTitle>
                 <AlertDescription>
                   <p className="mb-4">{suggestions.reasoning}</p>
                    <div className="space-y-3">
                         {suggestions.suggestedVideos.length > 0 && (
                             <div>
-                                <h4 className="font-semibold flex items-center gap-2"><Film className="h-4 w-4" /> Suggested Videos</h4>
+                                <h4 className="font-semibold flex items-center gap-2"><Film className="h-4 w-4" /> فيديوهات مقترحة</h4>
                                 <ul className="list-disc pl-5 mt-1 space-y-1">
                                     {suggestions.suggestedVideos.map((video, i) => <li key={i}><a href={video} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{video}</a></li>)}
                                 </ul>
@@ -103,7 +103,7 @@ export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
                         )}
                         {suggestions.suggestedSummaries.length > 0 && (
                              <div>
-                                <h4 className="font-semibold flex items-center gap-2"><FileText className="h-4 w-4" /> Suggested Summaries</h4>
+                                <h4 className="font-semibold flex items-center gap-2"><FileText className="h-4 w-4" /> ملخصات مقترحة</h4>
                                 <ul className="list-disc pl-5 mt-1 space-y-1">
                                     {suggestions.suggestedSummaries.map((summary, i) => <li key={i}><a href={summary} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{summary}</a></li>)}
                                 </ul>
@@ -117,12 +117,12 @@ export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
           <CardFooter className="flex-col gap-4">
             {!suggestions && (
                  <Button onClick={handleGetSuggestions} disabled={isLoadingSuggestions} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                    {isLoadingSuggestions ? "Getting Suggestions..." : "Get Content Suggestions"}
+                    {isLoadingSuggestions ? "جارٍ الحصول على اقتراحات..." : "احصل على اقتراحات للمحتوى"}
                     <Sparkles className="ml-2 h-4 w-4"/>
                 </Button>
             )}
             <Button asChild variant="outline" className="w-full">
-                <Link href="/lessons">Back to Lessons</Link>
+                <Link href="/lessons">العودة إلى الدروس</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -137,7 +137,7 @@ export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
           <Progress value={progress} className="mb-4" />
           <CardTitle className="text-xl leading-relaxed">{currentQuestion.text}</CardTitle>
           <CardDescription>
-            Question {currentQuestionIndex + 1} of {quiz.questions.length}
+            السؤال {currentQuestionIndex + 1} من {quiz.questions.length}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
@@ -163,7 +163,7 @@ export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
             disabled={!selectedAnswers[currentQuestion.id]}
             className="w-full"
           >
-            {currentQuestionIndex < quiz.questions.length - 1 ? 'Next' : 'Finish Quiz'}
+            {currentQuestionIndex < quiz.questions.length - 1 ? 'التالي' : 'إنهاء الاختبار'}
           </Button>
         </CardFooter>
       </Card>

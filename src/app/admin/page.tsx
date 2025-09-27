@@ -12,10 +12,10 @@ export default function AdminPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Curriculum Management</h1>
+        <h1 className="text-2xl font-bold">إدارة المناهج</h1>
         <Button>
           <PlusCircle className="mr-2 h-4 w-4" />
-          Add New Grade
+          إضافة صف جديد
         </Button>
       </div>
       <Accordion type="single" collapsible className="w-full">
@@ -45,12 +45,12 @@ export default function AdminPage() {
                   ))
                 ) : (
                   <p className="text-muted-foreground p-3">
-                    No lessons in this grade.
+                    لا توجد دروس في هذا الصف.
                   </p>
                 )}
                  <Button variant="outline" className="mt-4 w-full">
                   <PlusCircle className="mr-2 h-4 w-4" />
-                  Add New Lesson to {grade.name}
+                  إضافة درس جديد إلى {grade.name}
                 </Button>
               </div>
             </AccordionContent>

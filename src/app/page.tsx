@@ -55,14 +55,14 @@ export default function Dashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Overall Progress
+              التقدم العام
             </CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{overallProgress.toFixed(0)}%</div>
             <p className="text-xs text-muted-foreground">
-              {completedLessons} of {totalLessons} lessons completed
+              {completedLessons} من {totalLessons} دروس مكتملة
             </p>
             <Progress value={overallProgress} className="mt-2 h-2" />
           </CardContent>
@@ -70,42 +70,42 @@ export default function Dashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Average Quiz Score
+              متوسط درجة الاختبار
             </CardTitle>
             <Percent className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{averageScore.toFixed(0)}%</div>
             <p className="text-xs text-muted-foreground">
-              Across all completed quizzes
+              عبر جميع الاختبارات المكتملة
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Lessons Completed</CardTitle>
+            <CardTitle className="text-sm font-medium">الدروس المكتملة</CardTitle>
             <ClipboardCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+{completedLessons}</div>
             <p className="text-xs text-muted-foreground">
-              Keep up the great work!
+              استمر في العمل الرائع!
             </p>
           </CardContent>
         </Card>
          <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Recent Activity
+              آخر نشاط
             </CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {recentActivity.length > 0 ? lessons.find(l => l.id === recentActivity[0].lessonId)?.title : 'No Activity'}
+              {recentActivity.length > 0 ? lessons.find(l => l.id === recentActivity[0].lessonId)?.title : 'لا يوجد نشاط'}
             </div>
             <p className="text-xs text-muted-foreground">
-              {recentActivity.length > 0 ? `Score: ${recentActivity[0].quizScore || 'N/A'}` : 'Start a lesson to see your activity'}
+              {recentActivity.length > 0 ? `الدرجة: ${recentActivity[0].quizScore || 'N/A'}` : 'ابدأ درسًا لترى نشاطك'}
             </p>
           </CardContent>
         </Card>
@@ -115,14 +115,14 @@ export default function Dashboard() {
         <Card className="lg:col-span-2">
           <CardHeader className="flex flex-row items-center">
              <div className="grid gap-2">
-              <CardTitle>Continue Learning</CardTitle>
+              <CardTitle>واصل التعلم</CardTitle>
               <CardDescription>
-                Pick up where you left off or start a new lesson.
+                أكمل من حيث توقفت أو ابدأ درسًا جديدًا.
               </CardDescription>
             </div>
             <Button asChild size="sm" className="ml-auto gap-1">
               <Link href="/lessons">
-                View All
+                عرض الكل
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -131,9 +131,9 @@ export default function Dashboard() {
              <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Lesson</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Progress</TableHead>
+                  <TableHead>الدرس</TableHead>
+                  <TableHead>الحالة</TableHead>
+                  <TableHead className="text-right">التقدم</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -150,13 +150,13 @@ export default function Dashboard() {
                       </TableCell>
                       <TableCell>
                          <Badge variant={progress.completed ? 'default' : 'secondary'} className={progress.completed ? 'bg-green-600' : ''}>
-                          {progress.completed ? 'Completed' : 'In Progress'}
+                          {progress.completed ? 'مكتمل' : 'قيد التقدم'}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
                          <Link href={`/lessons/${lesson.id}`} passHref>
                           <Button size="sm" variant="outline">
-                            {progress.completed ? 'Review' : 'Start'}
+                            {progress.completed ? 'مراجعة' : 'ابدأ'}
                           </Button>
                         </Link>
                       </TableCell>
@@ -169,9 +169,9 @@ export default function Dashboard() {
         </Card>
         <Card>
            <CardHeader>
-            <CardTitle>Suggested For You</CardTitle>
+            <CardTitle>مقترح لك</CardTitle>
             <CardDescription>
-              Lessons picked to expand your knowledge.
+              دروس مختارة لتوسيع معرفتك.
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
@@ -192,7 +192,7 @@ export default function Dashboard() {
                   <div className="ml-auto font-medium">
                      <Link href={`/lessons/${lesson.id}`} passHref>
                       <Button size="sm" variant="outline">
-                        View
+                        عرض
                       </Button>
                     </Link>
                   </div>

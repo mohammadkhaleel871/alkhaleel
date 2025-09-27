@@ -47,8 +47,8 @@ export default function LessonDetailPage({ params }: { params: { id: string } })
       <div className="mt-8 flex justify-center">
         <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
           <Link href={`/lessons/${lesson.id}/quiz`}>
-            ابدأ الاختبار (Start Quiz)
-            <ArrowRight className="ml-2 h-5 w-5" />
+            ابدأ الاختبار
+            <ArrowRight className="mr-2 h-5 w-5" />
           </Link>
         </Button>
       </div>

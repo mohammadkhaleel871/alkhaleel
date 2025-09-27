@@ -15,8 +15,8 @@ export default function QuizPage({ params }: { params: { id: string } }) {
       <div className="flex items-center justify-center h-full">
         <Card className="w-full max-w-md text-center">
             <CardHeader>
-                <CardTitle>Quiz Not Found</CardTitle>
-                <CardDescription>Sorry, we couldn't find a quiz for this lesson.</CardDescription>
+                <CardTitle>الاختبار غير موجود</CardTitle>
+                <CardDescription>عذراً، لم نتمكن من العثور على اختبار لهذا الدرس.</CardDescription>
             </CardHeader>
         </Card>
       </div>

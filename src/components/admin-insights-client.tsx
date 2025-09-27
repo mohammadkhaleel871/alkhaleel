@@ -21,7 +21,7 @@ export function AdminInsightsClient({ lessons }: { lessons: Lesson[] }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedLessonId) {
-      setError('Please select a lesson.');
+      setError('الرجاء اختيار درس.');
       return;
     }
 
@@ -31,7 +31,7 @@ export function AdminInsightsClient({ lessons }: { lessons: Lesson[] }) {
 
     const lesson = lessons.find(l => l.id === selectedLessonId);
     if (!lesson) {
-      setError('Selected lesson not found.');
+      setError('الدرس المختار غير موجود.');
       setIsLoading(false);
       return;
     }
@@ -50,7 +50,7 @@ export function AdminInsightsClient({ lessons }: { lessons: Lesson[] }) {
     if (response.success && response.data) {
         setInsights(response.data);
     } else {
-        setError(response.error || 'An unknown error occurred.');
+        setError(response.error || 'حدث خطأ غير معروف.');
     }
     
     setIsLoading(false);
@@ -60,18 +60,18 @@ export function AdminInsightsClient({ lessons }: { lessons: Lesson[] }) {
     <div className="max-w-4xl mx-auto space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle>Get Lesson Insights</CardTitle>
+          <CardTitle>الحصول على رؤى حول الدرس</CardTitle>
           <CardDescription>
-            Select a lesson to analyze student performance and identify areas of difficulty using AI.
+            اختر درسًا لتحليل أداء الطلاب وتحديد مجالات الصعوبة باستخدام الذكاء الاصطناعي.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="lesson-select">Lesson</Label>
+              <Label htmlFor="lesson-select">الدرس</Label>
               <Select value={selectedLessonId} onValueChange={setSelectedLessonId}>
                 <SelectTrigger id="lesson-select">
-                  <SelectValue placeholder="Select a lesson" />
+                  <SelectValue placeholder="اختر درسًا" />
                 </SelectTrigger>
                 <SelectContent>
                   {lessons.map((lesson) => (
@@ -86,12 +86,12 @@ export function AdminInsightsClient({ lessons }: { lessons: Lesson[] }) {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Analyzing...
+                  جارٍ التحليل...
                 </>
               ) : (
                  <>
                   <Sparkles className="mr-2 h-4 w-4" />
-                  Generate Insights
+                  إنشاء رؤى
                  </>
               )}
             </Button>
@@ -102,7 +102,7 @@ export function AdminInsightsClient({ lessons }: { lessons: Lesson[] }) {
       {error && (
         <Alert variant="destructive">
             <ServerCrash className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>خطأ</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -110,15 +110,15 @@ export function AdminInsightsClient({ lessons }: { lessons: Lesson[] }) {
       {insights && (
         <Card>
             <CardHeader>
-                <CardTitle>AI-Powered Insights for "{lessons.find(l => l.id === selectedLessonId)?.title}"</CardTitle>
+                <CardTitle>رؤى مدعومة بالذكاء الاصطناعي لـ "{lessons.find(l => l.id === selectedLessonId)?.title}"</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
                 <div>
-                    <h3 className="font-semibold text-lg mb-2 flex items-center gap-2"><Lightbulb className="text-yellow-400" /> Key Difficulties</h3>
+                    <h3 className="font-semibold text-lg mb-2 flex items-center gap-2"><Lightbulb className="text-yellow-400" /> الصعوبات الرئيسية</h3>
                     <p className="text-muted-foreground bg-muted p-4 rounded-lg">{insights.keyDifficulties}</p>
                 </div>
                  <div>
-                    <h3 className="font-semibold text-lg mb-2 flex items-center gap-2"><Sparkles className="text-primary" /> Suggested Improvements</h3>
+                    <h3 className="font-semibold text-lg mb-2 flex items-center gap-2"><Sparkles className="text-primary" /> تحسينات مقترحة</h3>
                     <p className="text-muted-foreground bg-muted p-4 rounded-lg">{insights.suggestedImprovements}</p>
                 </div>
             </CardContent>

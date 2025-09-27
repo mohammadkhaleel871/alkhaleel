@@ -40,7 +40,7 @@ export default function LessonsPage() {
             </CardContent>
             <CardFooter>
               <Button asChild className="w-full">
-                <Link href={`/lessons/${lesson.id}`}>ابدأ الدرس (Start Lesson)</Link>
+                <Link href={`/lessons/${lesson.id}`}>ابدأ الدرس</Link>
               </Button>
             </CardFooter>
           </Card>
