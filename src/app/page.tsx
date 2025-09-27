@@ -36,7 +36,7 @@ export default function HomePage() {
           <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center text-foreground">
              <div className="mb-8">
                 <Image
-                    src="https://storage.googleapis.com/project-os-prod-336a9.appspot.com/6c20539c2794c92b236173a1197a2928.png"
+                    src="https://storage.googleapis.com/project-os-prod-336a9.appspot.com/a9c2282216839352e8d91c713b18c11e.png"
                     alt="شعار الخليل"
                     width={250}
                     height={250}
