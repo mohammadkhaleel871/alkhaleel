@@ -16,9 +16,9 @@ export async function getAllLessons(category?: Lesson['category']): Promise<Less
     
     let q;
     if (category) {
-      q = query(lessonsCollectionRef, where('category', '==', category), orderBy('id'));
+      q = query(lessonsCollectionRef, where('category', '==', category));
     } else {
-      q = query(lessonsCollectionRef, orderBy('id'));
+      q = query(lessonsCollectionRef);
     }
 
     const querySnapshot = await getDocs(q);
@@ -26,6 +26,8 @@ export async function getAllLessons(category?: Lesson['category']): Promise<Less
     querySnapshot.forEach((doc) => {
       lessonsList.push(doc.data() as Lesson);
     });
+    // Sort lessons by ID client-side
+    lessonsList.sort((a, b) => (a.id > b.id ? 1 : -1));
     return lessonsList;
   } catch (error) {
     console.error("Error getting all lessons: ", error);
