@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -31,6 +32,7 @@ import {
 import { AddLessonForm } from '@/components/add-lesson-form';
 import type { Grade, Lesson } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import { BackButton } from '@/components/layout/back-button';
 
 export default function AdminPage() {
   const { toast } = useToast();
@@ -42,12 +44,16 @@ export default function AdminPage() {
   const [selectedGrade, setSelectedGrade] = useState<Grade | null>(null);
   const [lessonToEdit, setLessonToEdit] = useState<Lesson | null>(null);
   const [lessonToDelete, setLessonToDelete] = useState<Lesson | null>(null);
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
+
 
   useEffect(() => {
     // We can only access localStorage on the client side
     // For this request, we clear the lessons to provide a clean slate.
-    localStorage.removeItem('lessons');
-    setAllLessons([]);
+    const storedLessons = localStorage.getItem('lessons');
+    if (storedLessons) {
+        setAllLessons(JSON.parse(storedLessons));
+    }
     setIsMounted(true); // Component is mounted and can safely access localStorage
   }, []);
 
@@ -69,6 +75,11 @@ export default function AdminPage() {
     setIsAddEditDialogOpen(true);
   };
   
+  const handleDeleteClick = (lesson: Lesson) => {
+    setLessonToDelete(lesson);
+    setIsDeleteAlertOpen(true);
+  };
+  
   const handleDeleteConfirm = () => {
     if (!lessonToDelete) return;
     const updatedLessons = allLessons.filter(l => l.id !== lessonToDelete.id);
@@ -78,6 +89,7 @@ export default function AdminPage() {
       description: `تم حذف درس "${lessonToDelete.title}".`,
     });
     setLessonToDelete(null);
+    setIsDeleteAlertOpen(false);
   }
 
   const onLessonSubmit = (lessonData: Lesson) => {
@@ -104,12 +116,10 @@ export default function AdminPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
+        <BackButton />
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">إدارة المناهج</h1>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          إضافة صف جديد
-        </Button>
+        
       </div>
 
       <Accordion type="single" collapsible className="w-full">
@@ -131,16 +141,16 @@ export default function AdminPage() {
                         <Button variant="ghost" size="icon" onClick={() => handleEditClick(lesson)}>
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <AlertDialogTrigger asChild>
+                        
                           <Button
                             variant="ghost"
                             size="icon"
                             className="text-destructive hover:text-destructive"
-                            onClick={() => setLessonToDelete(lesson)}
+                            onClick={() => handleDeleteClick(lesson)}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
-                        </AlertDialogTrigger>
+                        
                       </div>
                     </div>
                   ))
@@ -176,7 +186,7 @@ export default function AdminPage() {
       </Dialog>
       
       {/* Delete Confirmation Dialog */}
-       <AlertDialog>
+       <AlertDialog open={isDeleteAlertOpen} onOpenChange={setIsDeleteAlertOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>هل أنت متأكد تمامًا؟</AlertDialogTitle>
@@ -185,7 +195,7 @@ export default function AdminPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setLessonToDelete(null)}>إلغاء</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setIsDeleteAlertOpen(false)}>إلغاء</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteConfirm}>متابعة الحذف</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

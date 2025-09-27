@@ -1,4 +1,5 @@
 
+
 import {
   Card,
   CardContent,
@@ -13,6 +14,7 @@ import {
   BookOpen,
   ClipboardCheck,
   Percent,
+  Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
@@ -49,6 +51,18 @@ export default function Dashboard() {
     
   return (
     <div className="flex flex-col gap-8">
+       <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold">لوحة التحكم</h1>
+          <p className="text-muted-foreground">نظرة عامة على تقدمك.</p>
+        </div>
+        <Button asChild>
+          <Link href="/admin/insights">
+            <Sparkles className="mr-2 h-4 w-4" />
+            الحصول على رؤى الأداء
+          </Link>
+        </Button>
+      </div>
       <div className="flex flex-wrap justify-center gap-4 md:gap-8">
         <Card className="rounded-full w-28 h-28 flex flex-col items-center justify-center text-center p-2">
           <CardHeader className="p-0">

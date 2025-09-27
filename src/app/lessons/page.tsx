@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -73,11 +74,8 @@ export default function LessonsPage() {
         <Card className="text-center p-8">
             <CardTitle>لا توجد دروس</CardTitle>
             <CardDescription className="mt-2">
-                لم تتم إضافة أي دروس بعد. يرجى الذهاب إلى صفحة المشرف لإضافة دروس جديدة.
+                لم تتم إضافة أي دروس بعد.
             </CardDescription>
-            <Button asChild className="mt-4">
-                <Link href="/admin">الذهاب إلى صفحة المشرف</Link>
-            </Button>
         </Card>
       )}
     </div>

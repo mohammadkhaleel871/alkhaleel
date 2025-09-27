@@ -37,7 +37,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     { href: '/dashboard', label: 'لوحة التحكم', icon: LayoutDashboard },
     { href: '/lessons', label: 'الدروس', icon: BookOpen },
     { href: '/library', label: 'المكتبة', icon: Library },
-    { href: '/admin', label: 'المشرف', icon: Shield },
   ];
 
   const isHomePage = pathname === '/';
@@ -73,6 +72,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
+             <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.startsWith('/admin')}
+                  tooltip={'المشرف'}
+                >
+                  <Link href={'/admin'}>
+                    <Shield />
+                    <span>{'المشرف'}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
