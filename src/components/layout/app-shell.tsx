@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -49,14 +48,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     { href: '/library', label: 'المكتبة', icon: Library },
   ];
 
-  const isHomePage = pathname === '/';
-
   return (
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-3 p-2">
             <Link href="/" className="flex items-center gap-2 font-bold text-lg">
+                <div className="w-6 h-6 flex items-center justify-center rounded-md bg-primary text-primary-foreground">
+                    خ
+                </div>
                 <span>الخليل</span>
             </Link>
           </div>
@@ -145,8 +145,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        {isHomePage ? null : <Header />}
-        <main className={isHomePage ? '' : "p-4 sm:p-6 lg:p-8"}>{children}</main>
+        <Header />
+        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
