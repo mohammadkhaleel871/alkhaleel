@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -17,7 +18,7 @@ import { useToast } from '@/hooks/use-toast';
 
 interface AddLessonFormProps {
   grade: Grade;
-  onLessonSubmit: (lesson: Lesson) => void;
+  onLessonSubmit: (lesson: Lesson, isEditing: boolean) => void;
   existingLesson?: Lesson | null;
 }
 
@@ -27,6 +28,8 @@ export function AddLessonForm({ grade, onLessonSubmit, existingLesson }: AddLess
   const [videoUrl, setVideoUrl] = useState('');
   const [unit, setUnit] = useState('');
   const { toast } = useToast();
+
+  const isEditing = !!existingLesson;
 
   useEffect(() => {
     if (existingLesson) {
@@ -65,11 +68,11 @@ export function AddLessonForm({ grade, onLessonSubmit, existingLesson }: AddLess
       imageId: existingLesson?.imageId || 'lesson-algebra'
     };
 
-    onLessonSubmit(lessonData);
+    onLessonSubmit(lessonData, isEditing);
     
     toast({
-      title: existingLesson ? 'تم التعديل بنجاح' : 'تمت الإضافة بنجاح',
-      description: existingLesson ? `تم تعديل درس "${title}".` : `تمت إضافة درس "${title}" إلى ${grade.name}.`,
+      title: isEditing ? 'تم التعديل بنجاح' : 'تمت الإضافة بنجاح',
+      description: isEditing ? `تم تعديل درس "${title}".` : `تمت إضافة درس "${title}" إلى ${grade.name}.`,
     });
   };
 
