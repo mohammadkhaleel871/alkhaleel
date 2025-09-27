@@ -41,10 +41,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   ];
 
   const isHomePage = pathname === '/';
-
-  if (isHomePage) {
-    return <main>{children}</main>;
-  }
+  // Always show app shell for a more consistent experience
+  // if (isHomePage) {
+  //   return <main>{children}</main>;
+  // }
 
   return (
     <SidebarProvider>
@@ -89,8 +89,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <Header />
-        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
+        {isHomePage ? null : <Header />}
+        <main className={isHomePage ? '' : "p-4 sm:p-6 lg:p-8"}>{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
