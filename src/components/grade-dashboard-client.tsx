@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from "react";
@@ -125,7 +124,7 @@ export function GradeDashboardClient({
                 <CardTitle className="text-sm font-medium">
                 متوسط الدرجة
                 </CardTitle>
-            </Header>
+            </CardHeader>
             <CardContent className="p-0 mt-1">
                 <div className="text-2xl font-bold">{averageScore.toFixed(0)}%</div>
             </CardContent>
