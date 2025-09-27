@@ -39,7 +39,8 @@ export async function addLesson(lessonData: Lesson): Promise<void> {
   try {
     const lessonDocRef = doc(db, LESSONS_COLLECTION, lessonData.id);
     await setDoc(lessonDocRef, lessonData);
-  } catch (error) {
+  } catch (error)
+ {
     console.error("Error adding lesson: ", error);
     throw error;
   }
