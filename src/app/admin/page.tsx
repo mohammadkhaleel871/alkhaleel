@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { grades, lessons } from '@/lib/mock-data';
+import { grades as staticGrades } from '@/lib/mock-data';
 import { Edit, PlusCircle, Trash2 } from 'lucide-react';
 import {
   Dialog,
@@ -18,21 +18,36 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { AddLessonForm } from '@/components/add-lesson-form';
-import type { Grade } from '@/lib/types';
+import type { Grade, Lesson } from '@/lib/types';
 
 export default function AdminPage() {
   const [selectedGrade, setSelectedGrade] = useState<Grade | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [allLessons, setAllLessons] = useState<Lesson[]>([]);
 
+  useEffect(() => {
+    // We can only access localStorage on the client side
+    const storedLessons = localStorage.getItem('lessons');
+    if (storedLessons) {
+      setAllLessons(JSON.parse(storedLessons));
+    }
+  }, []);
+  
   const handleAddLessonClick = (grade: Grade) => {
     setSelectedGrade(grade);
     setIsDialogOpen(true);
   };
 
-  const onLessonAdded = () => {
+  const onLessonAdded = (newLesson: Lesson) => {
+    const updatedLessons = [...allLessons, newLesson];
+    setAllLessons(updatedLessons);
+    localStorage.setItem('lessons', JSON.stringify(updatedLessons));
     setIsDialogOpen(false);
-    // In a real app, you would refresh the data here.
   };
+  
+  const getLessonsForGrade = (gradeName: string) => {
+      return allLessons.filter(lesson => lesson.grade === gradeName);
+  }
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -45,15 +60,15 @@ export default function AdminPage() {
           </Button>
         </div>
         <Accordion type="single" collapsible className="w-full">
-          {grades.map((grade) => (
+          {staticGrades.map((grade) => (
             <AccordionItem value={`item-${grade.id}`} key={grade.id}>
               <AccordionTrigger className="text-lg font-medium">
                 {grade.name}
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-col gap-4 p-2">
-                  {grade.lessons.length > 0 ? (
-                    grade.lessons.map((lesson) => (
+                  {getLessonsForGrade(grade.name).length > 0 ? (
+                    getLessonsForGrade(grade.name).map((lesson) => (
                       <div
                         key={lesson.id}
                         className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors"

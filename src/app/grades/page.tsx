@@ -1,10 +1,27 @@
+'use client';
+
 import { BackButton } from '@/components/layout/back-button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { grades } from '@/lib/mock-data';
 import { GraduationCap } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import type { Lesson } from '@/lib/types';
 
 export default function GradesPage() {
+    const [allLessons, setAllLessons] = useState<Lesson[]>([]);
+
+    useEffect(() => {
+        const storedLessons = localStorage.getItem('lessons');
+        if (storedLessons) {
+            setAllLessons(JSON.parse(storedLessons));
+        }
+    }, []);
+
+    const getLessonCountForGrade = (gradeName: string) => {
+        return allLessons.filter(lesson => lesson.grade === gradeName).length;
+    }
+
   return (
     <div>
       <BackButton />
@@ -21,7 +38,7 @@ export default function GradesPage() {
                     <GraduationCap className="w-10 h-10 text-secondary" />
                 </div>
                 <CardTitle className="text-xl">{grade.name}</CardTitle>
-                <CardDescription>{grade.lessons.length} دروس</CardDescription>
+                <CardDescription>{getLessonCountForGrade(grade.name)} دروس</CardDescription>
               </CardHeader>
             </Card>
           </Link>

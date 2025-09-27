@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BackButton } from "@/components/layout/back-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,13 +12,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { grades, lessons as allLessons, studentProgress } from "@/lib/mock-data";
+import { grades, studentProgress } from "@/lib/mock-data";
 import { BookOpen, Percent, ClipboardCheck, Activity, Book, X } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Lesson } from "@/lib/types";
 
 export default function GradeDashboardPage({ params }: { params: { id: string } }) {
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
+  const [allLessons, setAllLessons] = useState<Lesson[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const storedLessons = localStorage.getItem('lessons');
+    if (storedLessons) {
+      setAllLessons(JSON.parse(storedLessons));
+    }
+    setIsLoading(false);
+  }, []);
 
   const grade = grades.find((g) => g.id === params.id);
   if (!grade) {
@@ -60,6 +71,10 @@ export default function GradeDashboardPage({ params }: { params: { id: string } 
 
   const units = ['الوحدة الأولى', 'الوحدة الثانية', 'الوحدة الثالثة', 'الوحدة الرابعة', 'الوحدة الخامسة'];
   const lessonsForSelectedUnit = selectedUnit ? lessonsByUnit[selectedUnit] || [] : [];
+  
+  if(isLoading) {
+    return <div>جارٍ التحميل...</div>
+  }
 
   return (
     <div>

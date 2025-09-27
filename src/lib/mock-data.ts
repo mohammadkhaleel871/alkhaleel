@@ -1,37 +1,6 @@
 import type { Lesson, Quiz, Resource, StudentProgress, Grade } from './types';
 
-export const lessons: Lesson[] = [
-    {
-        id: 'g7-1',
-        title: 'مقدمة في الجبر',
-        grade: 'الصف السابع',
-        unit: 'الوحدة الأولى',
-        summary: 'تعلم أساسيات الجبر والمتغيرات والمعادلات البسيطة.',
-        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-        quizId: 'q1',
-        imageId: 'lesson-algebra'
-    },
-    {
-        id: 'g10-1',
-        title: 'المعلقات السبع',
-        grade: 'الصف العاشر',
-        unit: 'الوحدة الثانية',
-        summary: 'استكشاف أشهر قصائد الشعر الجاهلي وأصحابها.',
-        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-        quizId: 'q2',
-        imageId: 'lesson-literature'
-    },
-    {
-        id: 'g8-1',
-        title: 'أساسيات الإعراب',
-        grade: 'الصف الثامن',
-        unit: 'الوحدة الأولى',
-        summary: 'فهم دور الكلمات في الجملة العربية وكيفية إعرابها.',
-        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-        quizId: 'q4',
-        imageId: 'lesson-grammar'
-    }
-];
+export const lessons: Lesson[] = [];
 
 export const quizzes: Quiz[] = [
   {
@@ -95,41 +64,33 @@ export const grades: Grade[] = [
     {
         id: 'g5',
         name: 'الصف الخامس',
-        lessons: lessons.filter(l => l.grade === 'الصف الخامس')
     },
      {
         id: 'g6',
         name: 'الصف السادس',
-        lessons: lessons.filter(l => l.grade === 'الصف السادس')
     },
     {
         id: 'g7',
         name: 'الصف السابع',
-        lessons: lessons.filter(l => l.grade === 'الصف السابع')
     },
     {
         id: 'g8',
         name: 'الصف الثامن',
-        lessons: lessons.filter(l => l.grade === 'الصف الثامن')
     },
      {
         id: 'g9',
         name: 'الصف التاسع',
-        lessons: lessons.filter(l => l.grade === 'الصف التاسع')
     },
     {
         id: 'g10',
         name: 'الصف العاشر',
-        lessons: lessons.filter(l => l.grade === 'الصف العاشر')
     },
     {
         id: 'g11',
         name: 'الصف الأول الثانوي',
-        lessons: lessons.filter(l => l.grade === 'الصف الأول الثانوي')
     },
      {
         id: 'g12',
         name: 'التوجيهي',
-        lessons: lessons.filter(l => l.grade === 'التوجيهي')
     },
 ]

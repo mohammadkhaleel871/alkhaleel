@@ -1,5 +1,8 @@
-import { lessons } from '@/lib/mock-data';
-import { notFound } from 'next/navigation';
+'use client'
+
+import { useState, useEffect } from 'react';
+import type { Lesson } from '@/lib/types';
+import { notFound, useParams } from 'next/navigation';
 import {
   Card,
   CardContent,
@@ -12,8 +15,27 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { BackButton } from '@/components/layout/back-button';
 
-export default function LessonDetailPage({ params }: { params: { id: string } }) {
-  const lesson = lessons.find((l) => l.id === params.id);
+export default function LessonDetailPage() {
+  const params = useParams<{ id: string }>();
+  const [lesson, setLesson] = useState<Lesson | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const storedLessons = localStorage.getItem('lessons');
+    if (storedLessons) {
+      const allLessons: Lesson[] = JSON.parse(storedLessons);
+      const currentLesson = allLessons.find((l) => l.id === params.id);
+      if (currentLesson) {
+        setLesson(currentLesson);
+      }
+    }
+    setIsLoading(false);
+  }, [params.id]);
+
+
+  if (isLoading) {
+    return <div>جارٍ تحميل الدرس...</div>;
+  }
 
   if (!lesson) {
     notFound();

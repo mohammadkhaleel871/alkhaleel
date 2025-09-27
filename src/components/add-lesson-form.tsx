@@ -12,14 +12,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import type { Grade } from '@/lib/types';
+import type { Grade, Lesson } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
-import { Info } from 'lucide-react';
 
 interface AddLessonFormProps {
   grade: Grade;
-  onLessonAdded: () => void;
+  onLessonAdded: (newLesson: Lesson) => void;
 }
 
 export function AddLessonForm({ grade, onLessonAdded }: AddLessonFormProps) {
@@ -39,30 +37,28 @@ export function AddLessonForm({ grade, onLessonAdded }: AddLessonFormProps) {
       });
       return;
     }
-    // In a real application, you would send this data to your server/database.
-    console.log({
+    
+    const newLesson: Lesson = {
+      id: `lesson-${Date.now()}`, // Simple unique ID
       title,
       summary,
       videoUrl,
       unit,
       grade: grade.name,
-    });
+      quizId: `q-${Date.now()}`, // Placeholder quizId
+      imageId: 'lesson-algebra' // Placeholder imageId
+    };
+
+    onLessonAdded(newLesson);
+    
     toast({
       title: 'تمت الإضافة بنجاح',
       description: `تمت إضافة درس "${title}" إلى ${grade.name}.`,
     });
-    onLessonAdded();
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-       <Alert>
-        <Info className="h-4 w-4" />
-        <AlertTitle>ملاحظة</AlertTitle>
-        <AlertDescription>
-          هذا نموذج تجريبي. الدروس المضافة لن يتم حفظها بشكل دائم.
-        </AlertDescription>
-      </Alert>
       <div className="space-y-2">
         <Label htmlFor="title">عنوان الدرس</Label>
         <Input

@@ -41,5 +41,4 @@ export interface StudentProgress {
 export interface Grade {
     id: string;
     name: string;
-    lessons: Lesson[];
 }

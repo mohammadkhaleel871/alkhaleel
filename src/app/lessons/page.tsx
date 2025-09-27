@@ -1,4 +1,7 @@
-import { lessons } from '@/lib/mock-data';
+'use client';
+
+import { useState, useEffect } from 'react';
+import type { Lesson } from '@/lib/types';
 import {
   Card,
   CardContent,
@@ -15,41 +18,68 @@ import { Badge } from '@/components/ui/badge';
 import { BackButton } from '@/components/layout/back-button';
 
 export default function LessonsPage() {
+    const [allLessons, setAllLessons] = useState<Lesson[]>([]);
+     const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const storedLessons = localStorage.getItem('lessons');
+        if (storedLessons) {
+            setAllLessons(JSON.parse(storedLessons));
+        }
+        setIsLoading(false);
+    }, []);
+
+    if (isLoading) {
+        return <div>جارٍ تحميل الدروس...</div>
+    }
+
   return (
     <div>
       <BackButton />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {lessons.map((lesson) => {
-          const lessonImage = PlaceHolderImages.find(p => p.id === lesson.imageId);
-          return (
-            <Card key={lesson.id} className="flex flex-col">
-              <CardHeader>
-                {lessonImage && (
-                  <div className="relative aspect-video w-full mb-4">
-                    <Image
-                      src={lessonImage.imageUrl}
-                      alt={lesson.title}
-                      fill
-                      className="rounded-lg object-cover"
-                      data-ai-hint={lessonImage.imageHint}
-                    />
-                  </div>
-                )}
-                <CardTitle>{lesson.title}</CardTitle>
-                <Badge variant="secondary" className="w-fit">{lesson.grade}</Badge>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <CardDescription>{lesson.summary}</CardDescription>
-              </CardContent>
-              <CardFooter>
-                <Button asChild className="w-full">
-                  <Link href={`/lessons/${lesson.id}`}>ابدأ الدرس</Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          );
-        })}
-      </div>
+      {allLessons.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {allLessons.map((lesson) => {
+            const lessonImage = PlaceHolderImages.find(p => p.id === lesson.imageId);
+            return (
+                <Card key={lesson.id} className="flex flex-col">
+                <CardHeader>
+                    {lessonImage && (
+                    <div className="relative aspect-video w-full mb-4">
+                        <Image
+                        src={lessonImage.imageUrl}
+                        alt={lesson.title}
+                        fill
+                        className="rounded-lg object-cover"
+                        data-ai-hint={lessonImage.imageHint}
+                        />
+                    </div>
+                    )}
+                    <CardTitle>{lesson.title}</CardTitle>
+                    <Badge variant="secondary" className="w-fit">{lesson.grade}</Badge>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                    <CardDescription>{lesson.summary}</CardDescription>
+                </CardContent>
+                <CardFooter>
+                    <Button asChild className="w-full">
+                    <Link href={`/lessons/${lesson.id}`}>ابدأ الدرس</Link>
+                    </Button>
+                </CardFooter>
+                </Card>
+            );
+            })}
+        </div>
+      ) : (
+        <Card className="text-center p-8">
+            <CardTitle>لا توجد دروس</CardTitle>
+            <CardDescription className="mt-2">
+                لم تتم إضافة أي دروس بعد. يرجى الذهاب إلى صفحة المشرف لإضافة دروس جديدة.
+            </CardDescription>
+            <Button asChild className="mt-4">
+                <Link href="/admin">الذهاب إلى صفحة المشرف</Link>
+            </Button>
+        </Card>
+      )}
     </div>
   );
 }
