@@ -61,7 +61,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative w-full h-dvh flex items-center justify-center text-center overflow-hidden">
+        <section className="relative w-full h-[75vh] flex items-center justify-center text-center overflow-hidden">
           {/* Background Texture & Overlay */}
           <div
             className="absolute inset-0 bg-background"
@@ -103,7 +103,7 @@ export default function HomePage() {
         </section>
 
         {/* Core Sections Quick Access */}
-        <section className="py-16 md:py-24 bg-background">
+        <section className="py-8 md:py-12 bg-background">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {sections.map((section) => (
