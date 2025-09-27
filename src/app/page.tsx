@@ -44,12 +44,6 @@ export default function HomePage() {
       href: '/grades',
     },
     {
-      icon: <BookOpen className="w-10 h-10 text-secondary" />,
-      title: 'الدروس العامة',
-      description: 'النحو، الصرف، البلاغة، والشعر.',
-      href: '/lessons',
-    },
-    {
       icon: <Library className="w-10 h-10 text-secondary" />,
       title: 'المكتبة',
       description: 'ملخصات، أوراق عمل، ودوسيات.',

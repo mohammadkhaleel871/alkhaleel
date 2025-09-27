@@ -32,13 +32,6 @@ function getTitle(pathname: string) {
         }
     }
     if (pathname.startsWith('/grades')) return 'المنهاج الأردني';
-    if (pathname.startsWith('/lessons/')) {
-        if (pathname.endsWith('/quiz')) {
-            return 'الاختبار';
-        }
-        return 'تفاصيل الدرس';
-    }
-    if (pathname.startsWith('/lessons')) return 'كل الدروس';
     if (pathname.startsWith('/library')) return 'المكتبة';
     if (pathname.startsWith('/dashboard')) return 'لوحة التحكم';
     if (pathname === '/') return 'الخليل';
