@@ -44,6 +44,12 @@ export default function HomePage() {
       href: '/grades',
     },
     {
+      icon: <BookOpen className="w-10 h-10 text-secondary" />,
+      title: 'الدروس العامة',
+      description: 'مواضيع متنوعة في اللغة العربية.',
+      href: '/lessons',
+    },
+    {
       icon: <Library className="w-10 h-10 text-secondary" />,
       title: 'المكتبة',
       description: 'ملخصات، أوراق عمل، ودوسيات.',
@@ -92,7 +98,7 @@ export default function HomePage() {
 
            {/* Core Sections Quick Access */}
           <div className="relative container mx-auto px-4 z-10 md:transform md:-translate-y-36">
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="grid md:grid-cols-3 gap-4">
               {sections.map((section) => (
                 <Link href={section.href} key={section.title} className="group flex-1">
                   <div className="relative text-center h-full p-4 transition-all duration-300 ease-in-out border-2 border-transparent hover:border-secondary/50 bg-card hover:shadow-2xl hover:shadow-secondary/10 rounded-xl overflow-hidden">

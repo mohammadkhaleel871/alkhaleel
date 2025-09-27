@@ -45,6 +45,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const menuItems = [
     { href: '/', label: 'الرئيسية', icon: Home },
     { href: '/dashboard', label: 'لوحة التحكم', icon: LayoutDashboard },
+    { href: '/lessons', label: 'الدروس', icon: BookOpen },
     { href: '/library', label: 'المكتبة', icon: Library },
   ];
 
