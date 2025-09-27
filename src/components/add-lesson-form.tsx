@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,15 +17,31 @@ import { useToast } from '@/hooks/use-toast';
 
 interface AddLessonFormProps {
   grade: Grade;
-  onLessonAdded: (newLesson: Lesson) => void;
+  onLessonSubmit: (lesson: Lesson) => void;
+  existingLesson?: Lesson | null;
 }
 
-export function AddLessonForm({ grade, onLessonAdded }: AddLessonFormProps) {
+export function AddLessonForm({ grade, onLessonSubmit, existingLesson }: AddLessonFormProps) {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [unit, setUnit] = useState('');
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (existingLesson) {
+      setTitle(existingLesson.title);
+      setSummary(existingLesson.summary);
+      setVideoUrl(existingLesson.videoUrl);
+      setUnit(existingLesson.unit);
+    } else {
+        // Reset form when adding a new lesson
+        setTitle('');
+        setSummary('');
+        setVideoUrl('');
+        setUnit('');
+    }
+  }, [existingLesson, grade]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,22 +54,22 @@ export function AddLessonForm({ grade, onLessonAdded }: AddLessonFormProps) {
       return;
     }
     
-    const newLesson: Lesson = {
-      id: `lesson-${Date.now()}`, // Simple unique ID
+    const lessonData: Lesson = {
+      id: existingLesson?.id || `lesson-${Date.now()}`,
       title,
       summary,
       videoUrl,
       unit,
       grade: grade.name,
-      quizId: `q-${Date.now()}`, // Placeholder quizId
-      imageId: 'lesson-algebra' // Placeholder imageId
+      quizId: existingLesson?.quizId || `q-${Date.now()}`,
+      imageId: existingLesson?.imageId || 'lesson-algebra'
     };
 
-    onLessonAdded(newLesson);
+    onLessonSubmit(lessonData);
     
     toast({
-      title: 'تمت الإضافة بنجاح',
-      description: `تمت إضافة درس "${title}" إلى ${grade.name}.`,
+      title: existingLesson ? 'تم التعديل بنجاح' : 'تمت الإضافة بنجاح',
+      description: existingLesson ? `تم تعديل درس "${title}".` : `تمت إضافة درس "${title}" إلى ${grade.name}.`,
     });
   };
 
@@ -102,7 +118,7 @@ export function AddLessonForm({ grade, onLessonAdded }: AddLessonFormProps) {
         </Select>
       </div>
       <Button type="submit" className="w-full">
-        إضافة الدرس
+        {existingLesson ? 'حفظ التعديلات' : 'إضافة الدرس'}
       </Button>
     </form>
   );
