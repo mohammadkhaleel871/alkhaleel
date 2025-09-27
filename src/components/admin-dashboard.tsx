@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { grades as staticGrades } from '@/lib/mock-data';
-import { Edit, PlusCircle, Trash2 } from 'lucide-react';
+import { Edit, PlusCircle, Trash2, BookOpen, Library, GraduationCap } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -34,6 +34,9 @@ import { BackButton } from '@/components/layout/back-button';
 import { addLesson, deleteLesson, getAllLessons, updateLesson } from '@/lib/lessons-firestore';
 import { Loader2 } from 'lucide-react';
 
+// A dummy grade object for non-curriculum categories
+const nonCurriculumGrade: Grade = { id: 'general', name: 'عام' };
+
 export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] }) {
   const { toast } = useToast();
   const [allLessons, setAllLessons] = useState<Lesson[]>(initialLessons);
@@ -45,6 +48,7 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
   const [lessonToEdit, setLessonToEdit] = useState<Lesson | null>(null);
   const [lessonToDelete, setLessonToDelete] = useState<Lesson | null>(null);
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
+  const [defaultCategory, setDefaultCategory] = useState<Lesson['category']>('jordanian-curriculum');
 
 
   const fetchLessons = async () => {
@@ -54,16 +58,18 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
     setIsLoading(false);
   }
 
-  const handleAddClick = (grade: Grade) => {
+  const handleAddClick = (grade: Grade, category: Lesson['category']) => {
     setSelectedGrade(grade);
     setLessonToEdit(null);
+    setDefaultCategory(category);
     setIsAddEditDialogOpen(true);
   };
 
   const handleEditClick = (lesson: Lesson) => {
-    const gradeOfLesson = staticGrades.find(g => g.name === lesson.grade);
-    setSelectedGrade(gradeOfLesson || null);
+    const gradeOfLesson = staticGrades.find(g => g.name === lesson.grade) || nonCurriculumGrade;
+    setSelectedGrade(gradeOfLesson);
     setLessonToEdit(lesson);
+    setDefaultCategory(lesson.category);
     setIsAddEditDialogOpen(true);
   };
   
@@ -78,7 +84,7 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
         await deleteLesson(lessonToDelete.id);
         toast({
         title: 'تم الحذف',
-        description: `تم حذف درس "${lessonToDelete.title}".`,
+        description: `تم حذف "${lessonToDelete.title}".`,
         });
         fetchLessons(); // Refetch lessons
     } catch(e) {
@@ -94,6 +100,13 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
 
   const onLessonSubmit = async (lessonData: Lesson, isEditing: boolean) => {
     setIsAddEditDialogOpen(false);
+    // When editing, if the grade is 'عام', but category is 'jordanian-curriculum', we should prompt for a real grade.
+    // For now, the form handles this logic.
+    // Let's ensure non-curriculum items have a generic grade.
+    if (lessonData.category !== 'jordanian-curriculum') {
+        lessonData.grade = 'عام';
+    }
+
     try {
         if (isEditing) {
             await updateLesson(lessonData);
@@ -111,9 +124,43 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
     setLessonToEdit(null);
   };
   
-  const getLessonsForGrade = (gradeName: string) => {
-      return allLessons.filter(lesson => lesson.grade === gradeName);
+  const getLessonsForCategory = (category: Lesson['category']) => {
+      return allLessons.filter(lesson => lesson.category === category);
   }
+
+  const getLessonsForGrade = (gradeName: string) => {
+      return allLessons.filter(lesson => lesson.grade === gradeName && lesson.category === 'jordanian-curriculum');
+  }
+
+  const renderLessonList = (lessons: Lesson[]) => {
+      if (lessons.length === 0) {
+          return <p className="text-muted-foreground p-3">لا يوجد محتوى في هذا القسم.</p>;
+      }
+      return lessons.map((lesson) => (
+            <div
+                key={lesson.id}
+                className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+            >
+                <span className="font-medium">{lesson.title}</span>
+                <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" onClick={() => handleEditClick(lesson)}>
+                    <Edit className="h-4 w-4" />
+                </Button>
+                
+                    <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-destructive hover:text-destructive"
+                    onClick={() => handleDeleteClick(lesson)}
+                    >
+                    <Trash2 className="h-4 w-4" />
+                    </Button>
+                
+                </div>
+            </div>
+        ));
+  }
+
 
   if (isLoading) {
     return (
@@ -127,59 +174,89 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
     <div className="max-w-4xl mx-auto">
         <BackButton />
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">إدارة المناهج</h1>
-        
+        <h1 className="text-2xl font-bold">إدارة المحتوى</h1>
       </div>
 
-      <Accordion type="single" collapsible className="w-full" defaultValue={`item-${staticGrades[0].id}`}>
-        {staticGrades.map((grade) => (
-          <AccordionItem value={`item-${grade.id}`} key={grade.id}>
-            <AccordionTrigger className="text-lg font-medium">
-              {grade.name}
+      <Accordion type="multiple" className="w-full space-y-4" defaultValue={['item-curriculum']}>
+        {/* Jordanian Curriculum Section */}
+        <AccordionItem value="item-curriculum" className="border rounded-lg">
+            <AccordionTrigger className="text-lg font-medium px-4 hover:no-underline">
+                <div className="flex items-center gap-3">
+                    <GraduationCap className="h-6 w-6 text-primary"/>
+                    المنهاج الأردني
+                </div>
+            </AccordionTrigger>
+            <AccordionContent className="p-2">
+                <Accordion type="single" collapsible className="w-full">
+                    {staticGrades.map((grade) => (
+                    <AccordionItem value={`item-${grade.id}`} key={grade.id}>
+                        <AccordionTrigger className="font-medium">
+                        {grade.name}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                        <div className="flex flex-col gap-4 p-2">
+                            {renderLessonList(getLessonsForGrade(grade.name))}
+                            <Button
+                                variant="outline"
+                                className="mt-4 w-full"
+                                onClick={() => handleAddClick(grade, 'jordanian-curriculum')}
+                            >
+                            <PlusCircle className="mr-2 h-4 w-4" />
+                            إضافة درس جديد إلى {grade.name}
+                            </Button>
+                        </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                    ))}
+                </Accordion>
+            </AccordionContent>
+        </AccordionItem>
+        
+        {/* General Lessons Section */}
+        <AccordionItem value="item-general" className="border rounded-lg">
+            <AccordionTrigger className="text-lg font-medium px-4 hover:no-underline">
+                 <div className="flex items-center gap-3">
+                    <BookOpen className="h-6 w-6 text-primary"/>
+                    الدروس العامة
+                </div>
             </AccordionTrigger>
             <AccordionContent>
-              <div className="flex flex-col gap-4 p-2">
-                {getLessonsForGrade(grade.name).length > 0 ? (
-                  getLessonsForGrade(grade.name).map((lesson) => (
-                    <div
-                      key={lesson.id}
-                      className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+                <div className="flex flex-col gap-4 p-4">
+                    {renderLessonList(getLessonsForCategory('general-lessons'))}
+                    <Button
+                        variant="outline"
+                        className="mt-4 w-full"
+                        onClick={() => handleAddClick(nonCurriculumGrade, 'general-lessons')}
                     >
-                      <span className="font-medium">{lesson.title}</span>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="icon" onClick={() => handleEditClick(lesson)}>
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-destructive hover:text-destructive"
-                            onClick={() => handleDeleteClick(lesson)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-muted-foreground p-3">
-                    لا توجد دروس في هذا الصف.
-                  </p>
-                )}
-                <Button
-                  variant="outline"
-                  className="mt-4 w-full"
-                  onClick={() => handleAddClick(grade)}
-                >
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  إضافة درس جديد إلى {grade.name}
-                </Button>
-              </div>
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        إضافة درس عام جديد
+                    </Button>
+                </div>
             </AccordionContent>
-          </AccordionItem>
-        ))}
+        </AccordionItem>
+
+        {/* Library Section */}
+         <AccordionItem value="item-library" className="border rounded-lg">
+            <AccordionTrigger className="text-lg font-medium px-4 hover:no-underline">
+                 <div className="flex items-center gap-3">
+                    <Library className="h-6 w-6 text-primary"/>
+                    المكتبة
+                </div>
+            </AccordionTrigger>
+            <AccordionContent>
+                <div className="flex flex-col gap-4 p-4">
+                    {renderLessonList(getLessonsForCategory('library'))}
+                    <Button
+                        variant="outline"
+                        className="mt-4 w-full"
+                        onClick={() => handleAddClick(nonCurriculumGrade, 'library')}
+                    >
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        إضافة مورد جديد للمكتبة
+                    </Button>
+                </div>
+            </AccordionContent>
+        </AccordionItem>
       </Accordion>
 
       {/* Add/Edit Dialog */}
@@ -187,7 +264,7 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {lessonToEdit ? `تعديل درس: ${lessonToEdit.title}` : `إضافة درس جديد إلى ${selectedGrade?.name}`}
+              {lessonToEdit ? `تعديل: ${lessonToEdit.title}` : `إضافة محتوى جديد`}
             </DialogTitle>
           </DialogHeader>
           {selectedGrade && <AddLessonForm grade={selectedGrade} onLessonSubmit={onLessonSubmit} existingLesson={lessonToEdit} />}
@@ -200,7 +277,7 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
           <AlertDialogHeader>
             <AlertDialogTitle>هل أنت متأكد تمامًا؟</AlertDialogTitle>
             <AlertDialogDescription>
-              سيتم حذف درس "{lessonToDelete?.title}" نهائيًا. لا يمكن التراجع عن هذا الإجراء.
+              سيتم حذف "{lessonToDelete?.title}" نهائيًا. لا يمكن التراجع عن هذا الإجراء.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -212,3 +289,5 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
     </div>
   );
 }
+
+    
