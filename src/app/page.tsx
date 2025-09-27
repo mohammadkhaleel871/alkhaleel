@@ -7,7 +7,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function HomePage() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-alkhalil');
   const sections = [
     {
       icon: <Map className="w-8 h-8 text-primary" />,
@@ -33,28 +32,25 @@ export default function HomePage() {
     <div className="flex flex-col min-h-[calc(100vh-4rem)]">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white overflow-hidden">
-          <div className="absolute inset-0 z-0">
-             {heroImage && (
+        <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white overflow-hidden bg-background">
+          <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center text-foreground">
+             <div className="mb-8">
                 <Image
-                    src={heroImage.imageUrl}
-                    alt="Al-Khalil bin Ahmed Al-Farahidi"
-                    fill
-                    className="object-cover"
-                    data-ai-hint={heroImage.imageHint}
+                    src="https://storage.googleapis.com/project-os-prod-336a9.appspot.com/6c20539c2794c92b236173a1197a2928.png"
+                    alt="شعار الخليل"
+                    width={250}
+                    height={250}
+                    className="object-contain"
                     priority
                 />
-             )}
-            <div className="absolute inset-0 bg-black/60" />
-          </div>
-          <div className="relative z-10 p-4 max-w-4xl mx-auto">
+             </div>
             <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tight">
               منصة الخليل
             </h1>
             <p className="mt-4 text-lg md:text-2xl font-medium">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
-            <p className="mt-2 max-w-2xl mx-auto text-base md:text-lg text-neutral-200">
+            <p className="mt-2 max-w-2xl mx-auto text-base md:text-lg text-muted-foreground">
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
           </div>
