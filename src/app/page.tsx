@@ -22,12 +22,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { lessons, studentProgress } from '@/lib/mock-data';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-
-const userAvatar = PlaceHolderImages.find((img) => img.id === 'user-avatar');
 
 export default function Dashboard() {
   const completedLessons = studentProgress.filter(
@@ -46,8 +42,6 @@ export default function Dashboard() {
     .sort((a, b) => (a.lastActivity && b.lastActivity ? new Date(b.lastActivity).getTime() - new Date(a.lastActivity).getTime() : -1))
     .slice(0, 3);
     
-  const suggestedLessons = lessons.slice(0, 2);
-
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-wrap justify-center gap-4 md:gap-8">
@@ -103,8 +97,8 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
+      <div className="grid gap-8">
+        <Card>
           <CardHeader className="flex flex-row items-center">
              <div className="grid gap-2">
               <CardTitle>واصل التعلم</CardTitle>
@@ -157,40 +151,6 @@ export default function Dashboard() {
                 })}
               </TableBody>
             </Table>
-          </CardContent>
-        </Card>
-        <Card>
-           <CardHeader>
-            <CardTitle>مقترح لك</CardTitle>
-            <CardDescription>
-              دروس مختارة لتوسيع معرفتك.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-6">
-           {suggestedLessons.map(lesson => {
-              const lessonImage = PlaceHolderImages.find(p => p.id === lesson.imageId);
-              return (
-                 <div key={lesson.id} className="flex items-center gap-4">
-                  <Avatar className="hidden h-12 w-12 sm:flex rounded-md">
-                     {lessonImage && <AvatarImage data-ai-hint={lessonImage.imageHint} src={lessonImage.imageUrl} alt={lesson.title} className="rounded-md"/>}
-                    <AvatarFallback className="rounded-md">{lesson.title.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      {lesson.title}
-                    </p>
-                    <p className="text-sm text-muted-foreground">{lesson.grade}</p>
-                  </div>
-                  <div className="ml-auto font-medium">
-                     <Link href={`/lessons/${lesson.id}`} passHref>
-                      <Button size="sm" variant="outline">
-                        عرض
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              )
-           })}
           </CardContent>
         </Card>
       </div>
