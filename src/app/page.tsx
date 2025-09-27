@@ -41,7 +41,7 @@ export default function HomePage() {
       icon: <Map className="w-10 h-10 text-secondary" />,
       title: 'المنهاج الأردني',
       description: 'دروس شاملة من الصف الخامس للتوجيهي.',
-      href: '/lessons',
+      href: '/grades',
     },
     {
       icon: <BookOpen className="w-10 h-10 text-secondary" />,

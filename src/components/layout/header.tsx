@@ -14,6 +14,7 @@ import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
+import { grades } from '@/lib/mock-data';
 
 const userAvatar = PlaceHolderImages.find((img) => img.id === 'user-avatar');
 
@@ -21,6 +22,15 @@ const userAvatar = PlaceHolderImages.find((img) => img.id === 'user-avatar');
 function getTitle(pathname: string) {
     if (pathname.startsWith('/admin/insights')) return 'رؤى الأداء';
     if (pathname.startsWith('/admin')) return 'إدارة المناهج';
+    if (pathname.startsWith('/grades/')) {
+        const parts = pathname.split('/');
+        const gradeId = parts[2];
+        const grade = grades.find(g => g.id === gradeId);
+        if (grade) {
+            return `لوحة تحكم: ${grade.name}`;
+        }
+    }
+    if (pathname.startsWith('/grades')) return 'المنهاج الأردني';
     if (pathname.startsWith('/lessons/')) {
         if (pathname.endsWith('/quiz')) {
             return 'الاختبار';
