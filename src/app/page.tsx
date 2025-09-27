@@ -12,31 +12,18 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
                     <stop offset="0%" stopColor="hsl(158, 80%, 40%)" />
                     <stop offset="100%" stopColor="hsl(158, 95%, 20%)" />
                 </linearGradient>
-                <radialGradient id="gold-glow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="hsl(var(--secondary))" stopOpacity="1" />
-                    <stop offset="70%" stopColor="hsl(var(--secondary))" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="hsl(var(--secondary))" stopOpacity="0" />
-                </radialGradient>
             </defs>
-
-            {/* Main Word */}
-            <text
-                x="100"
-                y="60"
-                fontFamily="Amiri, serif"
-                fontSize="60"
+            
+            {/* Modern Kufi-inspired "Al-Khalil" */}
+            <path 
+                d="M165 75V45H155V75H145V45H135V80C135 82.7614 137.239 85 140 85H150C152.761 85 155 82.7614 155 80V75H165ZM125 45H115V85H125V45ZM105 45H95V85H105V45ZM85 75V45H75V80C75 82.7614 77.2386 85 80 85H85V75ZM65 45H55V85H65V45ZM45 45H35V85H45V45Z"
                 fill="url(#green-gradient)"
-                textAnchor="middle"
-                dominantBaseline="central"
-                fontWeight="bold"
-            >
-                الخليل
-            </text>
+            />
 
-            {/* Three Descending Golden Lines */}
-            <path d="M60 95 H 140" stroke="hsl(var(--secondary))" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M70 105 H 130" stroke="hsl(var(--secondary))" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M80 115 H 120" stroke="hsl(var(--secondary))" strokeWidth="2.5" strokeLinecap="round" />
+            {/* The "L" extending down to form the pen nib */}
+            <path d="M135 80C135 82.7614 132.761 85 130 85H50L60 115H140L135 80Z" fill="#D4AF37"/>
+            <path d="M65 108 L70 118" stroke="#D4AF37" strokeWidth="2.5" strokeLinecap="round"/>
+            <path d="M75 105 L80 115" stroke="#D4AF37" strokeWidth="2.5" strokeLinecap="round"/>
         </svg>
     )
 }
