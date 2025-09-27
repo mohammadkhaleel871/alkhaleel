@@ -41,7 +41,7 @@ function getTitle(pathname: string) {
     if (pathname.startsWith('/lessons')) return 'كل الدروس';
     if (pathname.startsWith('/library')) return 'المكتبة';
     if (pathname.startsWith('/dashboard')) return 'لوحة التحكم';
-    if (pathname === '/') return 'منصة الخليل';
+    if (pathname === '/') return 'الخليل';
 
     return 'الخليل';
 }
