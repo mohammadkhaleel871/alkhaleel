@@ -103,7 +103,7 @@ export default function HomePage() {
         </section>
 
         {/* Core Sections Quick Access */}
-        <section className="pt-0 pb-8 md:pb-12 bg-background">
+        <section className="relative pt-0 pb-8 md:pb-12 bg-background transform -translate-y-24">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {sections.map((section) => (
@@ -114,10 +114,10 @@ export default function HomePage() {
                          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="geom" patternUnits="userSpaceOnUse" width="40" height="40"><path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="hsl(var(--secondary))" strokeWidth="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#geom)"/></svg>
                     </div>
                     <div className="relative flex flex-col items-center justify-center h-full">
-                        <div className="p-4 bg-secondary/10 rounded-full mb-4 group-hover:scale-110 transition-transform border border-secondary/20">
+                        <div className="p-4 bg-secondary/10 rounded-full group-hover:scale-110 transition-transform border border-secondary/20">
                             {section.icon}
                         </div>
-                        <h3 className="text-xl font-bold text-foreground">{section.title}</h3>
+                        <h3 className="text-xl font-bold text-foreground mt-4">{section.title}</h3>
                         <p className="mt-2 text-muted-foreground">{section.description}</p>
                     </div>
                   </div>
