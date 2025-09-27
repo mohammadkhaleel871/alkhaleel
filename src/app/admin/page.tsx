@@ -93,6 +93,9 @@ export default function AdminPage() {
   }
 
   const onLessonSubmit = (lessonData: Lesson) => {
+    // Close the dialog immediately for better perceived performance
+    setIsAddEditDialogOpen(false);
+
      if (lessonToEdit) {
       // Editing existing lesson
       const updatedLessons = allLessons.map(l => l.id === lessonData.id ? lessonData : l);
@@ -102,7 +105,6 @@ export default function AdminPage() {
       const updatedLessons = [...allLessons, lessonData];
       updateLocalStorage(updatedLessons);
     }
-    setIsAddEditDialogOpen(false);
     setLessonToEdit(null);
   };
   
