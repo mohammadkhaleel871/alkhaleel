@@ -88,7 +88,7 @@ export default function HomePage() {
               </svg>
           </div>
 
-          <div className="relative flex flex-col min-h-[60vh] md:min-h-[75vh] items-center text-center p-4 max-w-4xl mx-auto z-10">
+          <div className="relative flex flex-col justify-center min-h-[60vh] md:min-h-[75vh] items-center text-center p-4 max-w-4xl mx-auto z-10">
             <div className="w-36 h-24 md:w-48 md:h-28">
               <LogoIcon className="w-full h-full" />
             </div>
@@ -102,7 +102,7 @@ export default function HomePage() {
           </div>
 
            {/* Core Sections Quick Access */}
-          <div className="relative container mx-auto px-4 z-10 md:transform md:-translate-y-24">
+          <div className="relative container mx-auto px-4 z-10 md:transform md:-translate-y-32">
             <div className="grid grid-cols-3 gap-2 md:gap-8">
               {sections.map((section) => (
                 <Link href={section.href} key={section.title} className="group">
