@@ -18,13 +18,18 @@ import { getAllLessons } from '@/lib/lessons-firestore';
 
 export default async function LessonsPage() {
     const allLessons = await getAllLessons();
+    const generalLessons = allLessons.filter(lesson => lesson.category === 'general-lessons');
 
   return (
     <div>
       <BackButton />
-      {allLessons.length > 0 ? (
+       <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold font-headline">الدروس العامة</h1>
+        <p className="text-lg text-muted-foreground mt-2">مواضيع متنوعة في اللغة العربية.</p>
+      </div>
+      {generalLessons.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {allLessons.map((lesson) => {
+            {generalLessons.map((lesson) => {
             const lessonImage = PlaceHolderImages.find(p => p.id === lesson.imageId);
             return (
                 <Card key={lesson.id} className="flex flex-col">
@@ -59,7 +64,7 @@ export default async function LessonsPage() {
         <Card className="text-center p-8">
             <CardTitle>لا توجد دروس</CardTitle>
             <CardDescription className="mt-2">
-                لم تتم إضافة أي دروس بعد.
+                لم تتم إضافة أي دروس عامة بعد.
             </CardDescription>
         </Card>
       )}

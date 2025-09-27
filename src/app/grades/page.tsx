@@ -11,7 +11,7 @@ export default async function GradesPage() {
     const allLessons = await getAllLessons();
 
     const getLessonCountForGrade = (gradeName: string) => {
-        return allLessons.filter(lesson => lesson.grade === gradeName).length;
+        return allLessons.filter(lesson => lesson.grade === gradeName && lesson.category === 'jordanian-curriculum').length;
     }
 
   return (

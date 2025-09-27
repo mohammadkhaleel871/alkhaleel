@@ -7,6 +7,7 @@ export interface Lesson {
   videoUrl: string;
   quizId: string;
   imageId: string;
+  category: 'jordanian-curriculum' | 'general-lessons' | 'library';
 }
 
 export interface Quiz {

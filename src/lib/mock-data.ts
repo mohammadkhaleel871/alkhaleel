@@ -36,24 +36,7 @@ export const quizzes: Quiz[] = [
 
 export const studentProgress: StudentProgress[] = [];
 
-export const resources: Resource[] = [
-    {
-        id: 'r1',
-        title: 'دليل شامل لقواعد اللغة العربية',
-        description: 'ملف PDF يحتوي على ملخص لجميع قواعد النحو والصرف الأساسية.',
-        type: 'pdf',
-        url: '#',
-        imageId: 'resource-guide'
-    },
-    {
-        id: 'r2',
-        title: 'فيديو تعليمي: حل المعادلات التربيعية',
-        description: 'شرح مفصل لكيفية حل المعادلات التربيعية خطوة بخطوة.',
-        type: 'video',
-        url: '#',
-        imageId: 'resource-video'
-    }
-];
+export const resources: Resource[] = [];
 
 export const grades: Grade[] = [
     {
