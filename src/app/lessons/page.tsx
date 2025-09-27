@@ -1,8 +1,5 @@
 
 
-'use client';
-
-import { useState, useEffect } from 'react';
 import type { Lesson } from '@/lib/types';
 import {
   Card,
@@ -19,28 +16,9 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Badge } from '@/components/ui/badge';
 import { BackButton } from '@/components/layout/back-button';
 import { getAllLessons } from '@/lib/lessons-firestore';
-import { Loader2 } from 'lucide-react';
 
-export default function LessonsPage() {
-    const [allLessons, setAllLessons] = useState<Lesson[]>([]);
-     const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        async function fetchLessons() {
-            const lessons = await getAllLessons();
-            setAllLessons(lessons);
-            setIsLoading(false);
-        }
-        fetchLessons();
-    }, []);
-
-    if (isLoading) {
-        return (
-            <div className="flex items-center justify-center h-full">
-                <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            </div>
-        );
-    }
+export default async function LessonsPage() {
+    const allLessons = await getAllLessons();
 
   return (
     <div>
