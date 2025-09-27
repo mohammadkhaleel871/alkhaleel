@@ -9,8 +9,8 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
         <svg {...props} viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <linearGradient id="green-gradient" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stopColor="hsl(var(--primary))" />
-                    <stop offset="100%" stopColor="hsl(150, 70%, 45%)" />
+                    <stop offset="0%" stopColor="hsl(158, 80%, 40%)" />
+                    <stop offset="100%" stopColor="hsl(158, 95%, 20%)" />
                 </linearGradient>
                 <radialGradient id="gold-glow" cx="50%" cy="50%" r="50%">
                     <stop offset="0%" stopColor="hsl(var(--secondary))" stopOpacity="1" />
