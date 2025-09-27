@@ -61,7 +61,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <main className="flex-1">
         {/* Hero and Sections Container */}
-        <section className="relative w-full pb-8 md:pb-12">
+        <section className="relative w-full pt-0 pb-8 md:pb-12">
            {/* Background Texture & Overlay */}
           <div
             className="absolute inset-0 bg-background"
@@ -88,21 +88,21 @@ export default function HomePage() {
               </svg>
           </div>
 
-          <div className="relative flex flex-col min-h-[75vh] items-center justify-center text-center p-4 max-w-4xl mx-auto z-10">
-            <div className="w-80 h-48 md:w-96 md:h-56">
+          <div className="relative flex flex-col min-h-[60vh] md:min-h-[75vh] items-center justify-center text-center p-4 max-w-4xl mx-auto z-10">
+            <div className="w-64 h-36 md:w-96 md:h-56">
               <LogoIcon className="w-full h-full" />
             </div>
             
-            <p className="mt-4 text-3xl md:text-4xl font-medium text-white/90 font-headline">
+            <p className="mt-4 text-2xl md:text-4xl font-medium text-white/90 font-headline">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
-            <p className="mt-3 max-w-2xl mx-auto text-lg md:text-xl text-white/70">
+            <p className="mt-3 max-w-2xl mx-auto text-base md:text-xl text-white/70">
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
           </div>
 
            {/* Core Sections Quick Access */}
-          <div className="relative container mx-auto px-4 z-10 transform -translate-y-24">
+          <div className="relative container mx-auto px-4 z-10 md:transform md:-translate-y-24">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {sections.map((section) => (
                 <Link href={section.href} key={section.title} className="group">
