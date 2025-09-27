@@ -57,8 +57,13 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
   const fetchLessons = async () => {
     setIsLoading(true);
     try {
-      const lessons = await getAllLessons();
-      setAllLessons(lessons);
+      // Fetch all lessons from all categories in parallel
+      const [curriculumLessons, generalLessons, libraryLessons] = await Promise.all([
+        getAllLessons('jordanian-curriculum'),
+        getAllLessons('general-lessons'),
+        getAllLessons('library')
+      ]);
+      setAllLessons([...curriculumLessons, ...generalLessons, ...libraryLessons]);
     } catch (error) {
       console.error("Failed to fetch lessons:", error);
       toast({
@@ -112,9 +117,6 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
   }
 
   const onLessonSubmit = async (lessonData: Lesson, isEditing: boolean) => {
-    // When editing, if the grade is 'عام', but category is 'jordanian-curriculum', we should prompt for a real grade.
-    // For now, the form handles this logic.
-    // Let's ensure non-curriculum items have a generic grade.
     if (lessonData.category !== 'jordanian-curriculum') {
         lessonData.grade = 'عام';
     }
@@ -125,7 +127,7 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
         } else {
             await addLesson(lessonData);
         }
-        await fetchLessons(); // Refetch to get the latest list
+        await fetchLessons(); 
     } catch (e) {
         toast({
             title: 'خطأ',
@@ -303,3 +305,5 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
     </div>
   );
 }
+
+    
