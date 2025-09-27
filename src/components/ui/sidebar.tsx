@@ -95,6 +95,18 @@ const SidebarProvider = React.forwardRef<
         ? setOpenMobile((open) => !open)
         : setOpen((open) => !open)
     }, [isMobile, setOpen, setOpenMobile])
+    
+    // On the first client render, we read the cookie to set the sidebar state.
+    useEffect(() => {
+      const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`))
+        ?.split("=")[1]
+      
+      if (cookieValue) {
+        setOpen(cookieValue === 'true')
+      }
+    }, [setOpen])
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {

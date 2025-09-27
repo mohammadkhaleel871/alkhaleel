@@ -57,45 +57,50 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:h-16 sm:px-6">
-      <SidebarTrigger />
-      <h1 className="text-lg font-semibold md:text-xl">{title}</h1>
-      <div className="ml-auto flex items-center gap-4">
-        {loading ? (
-          <Skeleton className="h-8 w-8 rounded-full" />
-        ) : user ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={user.photoURL || ''} alt={user.displayName || 'User'} />
-                  <AvatarFallback>{user.displayName?.charAt(0) || 'U'}</AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{user.displayName}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <User className="ml-2 h-4 w-4" />
-                <span>الملف الشخصي</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className="ml-2 h-4 w-4" />
-                <span>الإعدادات</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logout}>
-                <LogOut className="ml-2 h-4 w-4" />
-                <span>تسجيل الخروج</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-           <Button onClick={signInWithGoogle} variant="outline">
-              <GoogleIcon className="mr-2 h-4 w-4" />
-              تسجيل الدخول
-           </Button>
-        )}
+      <div className="flex items-center gap-2 md:hidden">
+        <SidebarTrigger />
+      </div>
+
+      <div className="flex w-full items-center gap-4">
+        <h1 className="text-lg font-semibold md:text-xl">{title}</h1>
+        <div className="ml-auto flex items-center gap-4">
+          {loading ? (
+            <Skeleton className="h-8 w-8 rounded-full" />
+          ) : user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user.photoURL || ''} alt={user.displayName || 'User'} />
+                    <AvatarFallback>{user.displayName?.charAt(0) || 'U'}</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>{user.displayName}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <User className="ml-2 h-4 w-4" />
+                  <span>الملف الشخصي</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Settings className="ml-2 h-4 w-4" />
+                  <span>الإعدادات</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={logout}>
+                  <LogOut className="ml-2 h-4 w-4" />
+                  <span>تسجيل الخروج</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button onClick={signInWithGoogle} variant="outline">
+                <GoogleIcon className="mr-2 h-4 w-4" />
+                تسجيل الدخول
+            </Button>
+          )}
+        </div>
       </div>
     </header>
   );
