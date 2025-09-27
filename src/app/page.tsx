@@ -6,6 +6,26 @@ import { BookOpen, Library, Map } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+function OpenBookIcon(props: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg
+            {...props}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+        </svg>
+    )
+}
+
 export default function HomePage() {
   const sections = [
     {
@@ -35,10 +55,10 @@ export default function HomePage() {
         <section className="w-full py-20 md:py-32 flex items-center justify-center text-center bg-background">
           <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center text-foreground">
             <div className="flex flex-col items-center justify-center">
-                <h1 className="text-8xl md:text-9xl font-headline font-bold tracking-tight text-primary">
+                <h1 className="text-8xl md:text-9xl font-headline font-bold tracking-tight bg-gradient-to-br from-primary via-green-400 to-green-300 bg-clip-text text-transparent">
                 الخليل
                 </h1>
-                <BookOpen className="w-20 h-20 md:w-24 md:h-24 text-secondary mt-4" />
+                <OpenBookIcon className="w-20 h-20 md:w-24 md:h-24 text-secondary mt-4" />
             </div>
             <p className="mt-6 text-xl md:text-2xl font-medium">
               بوابتك المتكاملة لإتقان اللغة العربية.
