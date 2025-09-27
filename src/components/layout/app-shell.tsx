@@ -54,9 +54,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <SidebarHeader>
           <div className="flex items-center gap-3 p-2">
              <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-                <div className="w-6 h-6 flex items-center justify-center rounded-md bg-primary text-primary-foreground">
-                    خ
-                </div>
                 <span>الخليل</span>
             </Link>
           </div>
@@ -144,10 +141,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             )}
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset>
+      <div className="flex-1">
         {pathname !== '/' && <Header />}
         <main className={pathname !== '/' ? 'p-4 sm:p-6 lg:p-8' : ''}>{children}</main>
-      </SidebarInset>
+      </div>
     </SidebarProvider>
   );
 }
