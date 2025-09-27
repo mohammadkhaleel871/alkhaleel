@@ -12,8 +12,9 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Loader2 } from 'lucide-react';
 import { BackButton } from '@/components/layout/back-button';
+import { getAllLessons } from '@/lib/lessons-firestore';
 
 // Helper function to convert YouTube URL to embeddable URL
 function getYouTubeEmbedUrl(url: string): string {
@@ -44,20 +45,26 @@ export default function LessonDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedLessons = localStorage.getItem('lessons');
-    if (storedLessons) {
-      const allLessons: Lesson[] = JSON.parse(storedLessons);
-      const currentLesson = allLessons.find((l) => l.id === params.id);
-      if (currentLesson) {
-        setLesson(currentLesson);
-      }
+    async function fetchLesson() {
+        const allLessons = await getAllLessons();
+        const currentLesson = allLessons.find((l) => l.id === params.id);
+        if (currentLesson) {
+            setLesson(currentLesson);
+        }
+        setIsLoading(false);
     }
-    setIsLoading(false);
+    if (params.id) {
+        fetchLesson();
+    }
   }, [params.id]);
 
 
   if (isLoading) {
-    return <div>جارٍ تحميل الدرس...</div>;
+    return (
+        <div className="flex items-center justify-center h-full">
+            <Loader2 className="w-12 h-12 animate-spin text-primary" />
+        </div>
+    );
   }
 
   if (!lesson) {

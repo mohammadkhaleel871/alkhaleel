@@ -7,6 +7,8 @@ import { notFound, useParams } from 'next/navigation';
 import { QuizClient } from '@/components/quiz-client';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BackButton } from '@/components/layout/back-button';
+import { getAllLessons } from '@/lib/lessons-firestore';
+import { Loader2 } from 'lucide-react';
 
 export default function QuizPage() {
   const params = useParams<{ id: string }>();
@@ -15,34 +17,29 @@ export default function QuizPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedLessons = localStorage.getItem('lessons');
-    let currentLesson: Lesson | undefined;
-    if (storedLessons) {
-        const allLessons: Lesson[] = JSON.parse(storedLessons);
-        currentLesson = allLessons.find((l) => l.id === params.id);
-        if (currentLesson) {
-            setLesson(currentLesson);
-            const currentQuiz = quizzes.find((q) => q.lessonId === currentLesson?.id.split('-')[0]);
-            setQuiz(currentQuiz || null);
-        }
-    }
-    
-    // Fallback for mock data that might not be in localstorage yet
-    if (!currentLesson) {
-        const { lessons: mockLessons } = require('@/lib/mock-data');
-        currentLesson = mockLessons.find((l: Lesson) => l.id === params.id);
-         if (currentLesson) {
-            setLesson(currentLesson);
-             const currentQuiz = quizzes.find((q) => q.lessonId === currentLesson?.id);
-             setQuiz(currentQuiz || null);
-        }
+    async function fetchLessonAndQuiz() {
+      const allLessons: Lesson[] = await getAllLessons();
+      const currentLesson = allLessons.find((l) => l.id === params.id);
+      
+      if (currentLesson) {
+        setLesson(currentLesson);
+        const currentQuiz = quizzes.find((q) => q.lessonId === currentLesson?.id.split('-')[0] || q.lessonId === currentLesson?.id);
+        setQuiz(currentQuiz || null);
+      }
+      setIsLoading(false);
     }
 
-    setIsLoading(false);
+    if (params.id) {
+      fetchLessonAndQuiz();
+    }
   }, [params.id]);
 
   if (isLoading) {
-    return <div>جارٍ تحميل الاختبار...</div>;
+    return (
+        <div className="flex items-center justify-center h-full">
+            <Loader2 className="w-12 h-12 animate-spin text-primary" />
+        </div>
+    );
   }
   
   if (!lesson) {

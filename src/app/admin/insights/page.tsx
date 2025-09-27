@@ -11,19 +11,23 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Lightbulb, Loader2, ServerCrash, Sparkles } from 'lucide-react';
 import type { StudentDifficultyInsightsOutput } from '@/ai/flows/student-difficulty-insights';
 import { BackButton } from '@/components/layout/back-button';
+import { getAllLessons } from '@/lib/lessons-firestore';
 
 export default function AdminInsightsPage() {
     const [allLessons, setAllLessons] = useState<Lesson[]>([]);
     const [selectedLessonId, setSelectedLessonId] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingLessons, setIsLoadingLessons] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [insights, setInsights] = useState<StudentDifficultyInsightsOutput | null>(null);
     
     useEffect(() => {
-        const storedLessons = localStorage.getItem('lessons');
-        if (storedLessons) {
-            setAllLessons(JSON.parse(storedLessons));
+        async function fetchLessons() {
+            const lessons = await getAllLessons();
+            setAllLessons(lessons);
+            setIsLoadingLessons(false);
         }
+        fetchLessons();
     }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,6 +69,14 @@ export default function AdminInsightsPage() {
     
     setIsLoading(false);
   };
+  
+    if (isLoadingLessons) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <Loader2 className="w-12 h-12 animate-spin text-primary" />
+            </div>
+        );
+    }
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">

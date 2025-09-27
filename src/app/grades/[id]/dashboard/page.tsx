@@ -19,6 +19,7 @@ import { notFound, useParams } from "next/navigation";
 import type { Lesson, StudentProgress } from "@/lib/types";
 import { useAuth } from "@/hooks/use-auth";
 import { getStudentProgress } from "@/lib/firestore";
+import { getAllLessons } from "@/lib/lessons-firestore";
 
 export default function GradeDashboardPage() {
   const params = useParams<{ id: string }>();
@@ -29,20 +30,18 @@ export default function GradeDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedLessons = localStorage.getItem('lessons');
-    if (storedLessons) {
-      setAllLessons(JSON.parse(storedLessons));
-    }
-  }, []);
+    async function fetchData() {
+        const lessons = await getAllLessons();
+        setAllLessons(lessons);
 
-  useEffect(() => {
-    if (user) {
-      getStudentProgress(user.uid).then((progress) => {
-        setStudentProgress(progress);
+        if (user) {
+            const progress = await getStudentProgress(user.uid);
+            setStudentProgress(progress);
+        }
         setIsLoading(false);
-      });
-    } else if (!authLoading) {
-      setIsLoading(false);
+    }
+    if (!authLoading) {
+      fetchData();
     }
   }, [user, authLoading]);
 

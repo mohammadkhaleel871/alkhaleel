@@ -3,23 +3,35 @@
 import { BackButton } from '@/components/layout/back-button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { grades } from '@/lib/mock-data';
-import { GraduationCap } from 'lucide-react';
+import { GraduationCap, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { Lesson } from '@/lib/types';
+import { getAllLessons } from '@/lib/lessons-firestore';
 
 export default function GradesPage() {
     const [allLessons, setAllLessons] = useState<Lesson[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const storedLessons = localStorage.getItem('lessons');
-        if (storedLessons) {
-            setAllLessons(JSON.parse(storedLessons));
+        async function fetchLessons() {
+            const lessons = await getAllLessons();
+            setAllLessons(lessons);
+            setIsLoading(false);
         }
+        fetchLessons();
     }, []);
 
     const getLessonCountForGrade = (gradeName: string) => {
         return allLessons.filter(lesson => lesson.grade === gradeName).length;
+    }
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <Loader2 className="w-12 h-12 animate-spin text-primary" />
+            </div>
+        );
     }
 
   return (

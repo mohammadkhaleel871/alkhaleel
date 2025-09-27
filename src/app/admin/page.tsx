@@ -16,7 +16,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   AlertDialog,
@@ -27,17 +26,18 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { AddLessonForm } from '@/components/add-lesson-form';
 import type { Grade, Lesson } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { BackButton } from '@/components/layout/back-button';
+import { addLesson, deleteLesson, getAllLessons, updateLesson } from '@/lib/lessons-firestore';
+import { Loader2 } from 'lucide-react';
 
 export default function AdminPage() {
   const { toast } = useToast();
   const [allLessons, setAllLessons] = useState<Lesson[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // State for dialogs
   const [isAddEditDialogOpen, setIsAddEditDialogOpen] = useState(false);
@@ -47,20 +47,16 @@ export default function AdminPage() {
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
 
 
-  useEffect(() => {
-    // We can only access localStorage on the client side
-    // For this request, we clear the lessons to provide a clean slate.
-    const storedLessons = localStorage.getItem('lessons');
-    if (storedLessons) {
-        setAllLessons(JSON.parse(storedLessons));
-    }
-    setIsMounted(true); // Component is mounted and can safely access localStorage
-  }, []);
-
-  const updateLocalStorage = (lessons: Lesson[]) => {
-    localStorage.setItem('lessons', JSON.stringify(lessons));
+  const fetchLessons = async () => {
+    setIsLoading(true);
+    const lessons = await getAllLessons();
     setAllLessons(lessons);
-  };
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    fetchLessons();
+  }, []);
 
   const handleAddClick = (grade: Grade) => {
     setSelectedGrade(grade);
@@ -80,30 +76,41 @@ export default function AdminPage() {
     setIsDeleteAlertOpen(true);
   };
   
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (!lessonToDelete) return;
-    const updatedLessons = allLessons.filter(l => l.id !== lessonToDelete.id);
-    updateLocalStorage(updatedLessons);
-    toast({
-      title: 'تم الحذف',
-      description: `تم حذف درس "${lessonToDelete.title}".`,
-    });
+    try {
+        await deleteLesson(lessonToDelete.id);
+        toast({
+        title: 'تم الحذف',
+        description: `تم حذف درس "${lessonToDelete.title}".`,
+        });
+        await fetchLessons(); // Refetch lessons
+    } catch(e) {
+         toast({
+            title: 'خطأ',
+            description: 'فشل حذف الدرس.',
+            variant: 'destructive',
+        });
+    }
     setLessonToDelete(null);
     setIsDeleteAlertOpen(false);
   }
 
-  const onLessonSubmit = (lessonData: Lesson) => {
-    // Close the dialog immediately for better perceived performance
+  const onLessonSubmit = async (lessonData: Lesson) => {
     setIsAddEditDialogOpen(false);
-
-     if (lessonToEdit) {
-      // Editing existing lesson
-      const updatedLessons = allLessons.map(l => l.id === lessonData.id ? lessonData : l);
-      updateLocalStorage(updatedLessons);
-    } else {
-      // Adding new lesson
-      const updatedLessons = [...allLessons, lessonData];
-      updateLocalStorage(updatedLessons);
+    try {
+        if (lessonToEdit) {
+            await updateLesson(lessonData);
+        } else {
+            await addLesson(lessonData);
+        }
+        await fetchLessons(); // Refetch lessons
+    } catch (e) {
+        toast({
+            title: 'خطأ',
+            description: 'فشل حفظ الدرس.',
+            variant: 'destructive',
+        });
     }
     setLessonToEdit(null);
   };
@@ -112,8 +119,12 @@ export default function AdminPage() {
       return allLessons.filter(lesson => lesson.grade === gradeName);
   }
 
-  if (!isMounted) {
-    return <div>جارٍ التحميل...</div>;
+  if (isLoading) {
+    return (
+        <div className="flex items-center justify-center h-full">
+            <Loader2 className="w-12 h-12 animate-spin text-primary" />
+        </div>
+    );
   }
 
   return (
