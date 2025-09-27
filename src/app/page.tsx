@@ -106,7 +106,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {sections.map((section) => (
                 <Link href={section.href} key={section.title} className="group">
-                  <div className="relative text-center h-full p-8 transition-all duration-300 ease-in-out border-2 border-transparent hover:border-secondary/50 bg-card hover:shadow-2xl hover:shadow-secondary/10 rounded-xl overflow-hidden">
+                  <div className="relative text-center h-full p-6 md:p-8 transition-all duration-300 ease-in-out border-2 border-transparent hover:border-secondary/50 bg-card hover:shadow-2xl hover:shadow-secondary/10 rounded-xl overflow-hidden">
                      {/* Decorative geometric background */}
                     <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity">
                          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="geom" patternUnits="userSpaceOnUse" width="40" height="40"><path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="hsl(var(--secondary))" strokeWidth="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#geom)"/></svg>
