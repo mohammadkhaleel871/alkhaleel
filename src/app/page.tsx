@@ -20,7 +20,7 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
             </defs>
 
             {/* "الخليل" text with Amiri font */}
-            <text x="100" y="45" fontFamily="Amiri, serif" fontSize="48" fontWeight="bold" fill="url(#green-gradient-text)" textAnchor="middle" dominantBaseline="middle">
+            <text x="100" y="45" fontFamily="'PT Sans', sans-serif" fontSize="48" fill="url(#green-gradient-text)" textAnchor="middle" dominantBaseline="middle">
                 الخليل
             </text>
             
