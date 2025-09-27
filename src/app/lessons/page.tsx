@@ -1,4 +1,7 @@
 
+'use client';
+
+import { useState, useEffect, useMemo } from 'react';
 import type { Lesson } from '@/lib/types';
 import {
   Card,
@@ -15,19 +18,61 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Badge } from '@/components/ui/badge';
 import { BackButton } from '@/components/layout/back-button';
 import { getAllLessons } from '@/lib/lessons-firestore';
+import { Input } from '@/components/ui/input';
+import { Loader2, Search } from 'lucide-react';
 
-export default async function LessonsPage() {
-    const allLessons = await getAllLessons();
-    const generalLessons = allLessons.filter(lesson => lesson.category === 'general-lessons');
+export default function LessonsPage() {
+  const [allLessons, setAllLessons] = useState<Lesson[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    async function fetchLessons() {
+      setIsLoading(true);
+      const lessons = await getAllLessons();
+      setAllLessons(lessons);
+      setIsLoading(false);
+    }
+    fetchLessons();
+  }, []);
+
+  const generalLessons = useMemo(() => {
+    const filteredByCategory = allLessons.filter(lesson => lesson.category === 'general-lessons');
+
+    if (!searchTerm) {
+        return filteredByCategory;
+    }
+
+    return filteredByCategory.filter(lesson =>
+        lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lesson.summary.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [allLessons, searchTerm]);
 
   return (
     <div>
       <BackButton />
-       <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h1 className="text-4xl font-bold font-headline">الدروس العامة</h1>
         <p className="text-lg text-muted-foreground mt-2">مواضيع متنوعة في اللغة العربية.</p>
       </div>
-      {generalLessons.length > 0 ? (
+
+       <div className="relative mb-8 max-w-lg mx-auto">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Input
+          type="text"
+          placeholder="ابحث عن درس..."
+          className="pl-10 w-full"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+      
+      {isLoading ? (
+        <div className="flex justify-center items-center py-10">
+          <Loader2 className="w-12 h-12 animate-spin text-primary" />
+        </div>
+      ) : generalLessons.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {generalLessons.map((lesson) => {
             const lessonImage = PlaceHolderImages.find(p => p.id === lesson.imageId);
@@ -62,9 +107,9 @@ export default async function LessonsPage() {
         </div>
       ) : (
         <Card className="text-center p-8">
-            <CardTitle>لا توجد دروس</CardTitle>
+            <CardTitle>لا توجد نتائج</CardTitle>
             <CardDescription className="mt-2">
-                لم تتم إضافة أي دروس عامة بعد.
+                لم نتمكن من العثور على أي دروس تطابق بحثك.
             </CardDescription>
         </Card>
       )}

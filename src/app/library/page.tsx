@@ -1,3 +1,7 @@
+
+'use client';
+
+import { useState, useEffect, useMemo } from 'react';
 import { getAllLessons } from '@/lib/lessons-firestore';
 import type { Lesson } from '@/lib/types';
 import {
@@ -13,21 +17,62 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Video } from 'lucide-react';
+import { FileText, Video, Search, Loader2 } from 'lucide-react';
 import { BackButton } from '@/components/layout/back-button';
+import { Input } from '@/components/ui/input';
 
-export default async function LibraryPage() {
-  const allLessons = await getAllLessons();
-  const libraryResources = allLessons.filter(lesson => lesson.category === 'library');
+export default function LibraryPage() {
+  const [allResources, setAllResources] = useState<Lesson[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    async function fetchResources() {
+      setIsLoading(true);
+      const lessons = await getAllLessons();
+      setAllResources(lessons);
+      setIsLoading(false);
+    }
+    fetchResources();
+  }, []);
+
+  const libraryResources = useMemo(() => {
+    const filteredByCategory = allResources.filter(lesson => lesson.category === 'library');
+
+    if (!searchTerm) {
+        return filteredByCategory;
+    }
+
+    return filteredByCategory.filter(resource =>
+        resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resource.summary.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [allResources, searchTerm]);
 
   return (
     <div>
       <BackButton />
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
             <h1 className="text-4xl font-bold font-headline">المكتبة</h1>
             <p className="text-lg text-muted-foreground mt-2">ملخصات، أوراق عمل، ودوسيات.</p>
         </div>
-      {libraryResources.length > 0 ? (
+
+        <div className="relative mb-8 max-w-lg mx-auto">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+                type="text"
+                placeholder="ابحث في المكتبة..."
+                className="pl-10 w-full"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+        </div>
+      
+      {isLoading ? (
+        <div className="flex justify-center items-center py-10">
+          <Loader2 className="w-12 h-12 animate-spin text-primary" />
+        </div>
+      ) : libraryResources.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {libraryResources.map((resource) => {
             const resourceImage = PlaceHolderImages.find(p => p.id === resource.imageId);
@@ -66,9 +111,9 @@ export default async function LibraryPage() {
         </div>
       ) : (
          <Card className="text-center p-8">
-            <CardTitle>المكتبة فارغة</CardTitle>
+            <CardTitle>لا توجد نتائج</CardTitle>
             <CardDescription className="mt-2">
-                لم تتم إضافة أي موارد إلى المكتبة بعد.
+                لم نتمكن من العثور على أي موارد تطابق بحثك.
             </CardDescription>
         </Card>
       )}
