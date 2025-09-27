@@ -61,7 +61,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <main className="flex-1">
         {/* Hero and Sections Container */}
-        <section className="relative w-full h-auto pt-0 pb-4 md:pb-12">
+        <section className="relative w-full h-auto pt-0 pb-8 md:pb-12">
            {/* Background Texture & Overlay */}
           <div
             className="absolute inset-0 bg-background"
@@ -88,15 +88,15 @@ export default function HomePage() {
               </svg>
           </div>
 
-          <div className="relative flex flex-col pt-20 md:pt-28 min-h-[50vh] md:min-h-[65vh] items-center text-center p-4 max-w-4xl mx-auto z-10">
-            <div className="w-36 h-20 md:w-48 md:h-32">
+          <div className="relative flex flex-col pt-16 md:pt-24 min-h-[50vh] md:min-h-[65vh] items-center text-center p-4 max-w-4xl mx-auto z-10">
+            <div className="w-48 h-32 md:w-56 md:h-40">
               <LogoIcon className="w-full h-full" />
             </div>
             
-            <p className="mt-4 text-2xl md:text-5xl font-medium text-white/90 font-headline">
+            <p className="mt-4 text-3xl md:text-6xl font-medium text-white/90 font-headline">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
-            <p className="mt-3 max-w-2xl mx-auto text-lg md:text-2xl text-white/70">
+            <p className="mt-3 max-w-2xl mx-auto text-lg md:text-3xl text-white/70">
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
           </div>
