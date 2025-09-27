@@ -26,16 +26,20 @@ import { Badge } from '@/components/ui/badge';
 import { lessons, studentProgress } from '@/lib/mock-data';
 
 export default function Dashboard() {
+  const hasStartedLearning = studentProgress.length > 0;
+
   const completedLessons = studentProgress.filter(
     (p) => p.completed
   ).length;
   const totalLessons = lessons.length;
-  const overallProgress = (completedLessons / totalLessons) * 100;
+  const overallProgress = hasStartedLearning ? (completedLessons / totalLessons) * 100 : 0;
+  
+  const relevantProgress = studentProgress.filter((p) => p.quizScore !== null);
   const averageScore =
-    studentProgress
-      .filter((p) => p.quizScore !== null)
-      .reduce((acc, p) => acc + p.quizScore!, 0) /
-      studentProgress.filter((p) => p.quizScore !== null).length || 0;
+    relevantProgress.length > 0
+      ? relevantProgress.reduce((acc, p) => acc + p.quizScore!, 0) /
+        relevantProgress.length
+      : 0;
 
   const recentActivity = studentProgress
     .slice()
@@ -91,13 +95,14 @@ export default function Dashboard() {
               {recentActivity.length > 0 ? lessons.find(l => l.id === recentActivity[0].lessonId)?.title : 'لا يوجد'}
             </div>
             <p className="text-xs text-muted-foreground">
-              {recentActivity.length > 0 ? `الدرجة: ${recentActivity[0].quizScore || 'N/A'}` : ''}
+              {recentActivity.length > 0 && recentActivity[0].quizScore !== null ? `الدرجة: ${recentActivity[0].quizScore}` : ''}
             </p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid gap-8">
+       {hasStartedLearning ? (
         <Card>
           <CardHeader className="flex flex-row items-center">
              <div className="grid gap-2">
@@ -153,6 +158,21 @@ export default function Dashboard() {
             </Table>
           </CardContent>
         </Card>
+         ) : (
+          <Card>
+            <CardHeader>
+              <CardTitle>ابدأ رحلتك التعليمية</CardTitle>
+              <CardDescription>
+                لا يوجد لديك أي تقدم حتى الآن. اختر درسًا من المكتبة للبدء.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button asChild>
+                <Link href="/lessons">تصفح كل الدروس</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
