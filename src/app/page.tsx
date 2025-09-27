@@ -21,23 +21,23 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
 
             {/* "الخليل" in the specified Kufic style */}
             <g fill="url(#green-gradient-text)">
-                {/* ا */}
-                <path d="M168 30H156V72H168V30Z" />
                 {/* ل */}
-                <path d="M152 30H140V72H152V30Z" />
-                {/* خ */}
-                <path d="M136 43V30H108V43H116.667L122 49L127.333 43H136Z" />
-                <path d="M122 53L127.333 59H116.667L122 53Z" />
-                <circle cx="122" cy="22" r="3" />
-                {/* ل */}
-                <path d="M104 30H92V72H104V30Z" />
+                <path d="M54 30H42V72H54V30Z" />
                 {/* ي */}
-                <path d="M88 43V30H70V43H88Z" />
-                <path d="M88 47H70V61H88V47Z" />
+                <path d="M70 43V30H88V43H70Z" />
+                <path d="M70 47H88V61H70V47Z" />
                 <circle cx="76" cy="67" r="3" />
                 <circle cx="82" cy="67" r="3" />
                 {/* ل */}
-                <path d="M66 30H54V72H66V30Z" />
+                <path d="M92 30H104V72H92V30Z" />
+                {/* خ */}
+                <path d="M108 43V30H136V43H127.333L122 49L116.667 43H108Z" />
+                <path d="M122 53L116.667 59H127.333L122 53Z" />
+                <circle cx="122" cy="22" r="3" />
+                {/* ل */}
+                <path d="M140 30H152V72H140V30Z" />
+                {/* ا */}
+                <path d="M156 30H168V72H156V30Z" />
             </g>
             
             {/* Golden Pen base */}
