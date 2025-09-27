@@ -1,5 +1,6 @@
+'use client';
 
-
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -15,6 +16,7 @@ import {
   ClipboardCheck,
   Percent,
   Sparkles,
+  Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
@@ -26,17 +28,41 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { lessons, studentProgress } from '@/lib/mock-data';
+import type { Lesson, StudentProgress } from '@/lib/types';
+import { useAuth } from '@/hooks/use-auth';
+import { getStudentProgress } from '@/lib/firestore';
 
 export default function Dashboard() {
-  const hasStartedLearning = studentProgress.length > 0;
+  const { user, loading: authLoading } = useAuth();
+  const [allLessons, setAllLessons] = useState<Lesson[]>([]);
+  const [studentProgress, setStudentProgress] = useState<StudentProgress[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const completedLessons = studentProgress.filter(
-    (p) => p.completed
-  ).length;
-  const totalLessons = lessons.length;
-  const overallProgress = hasStartedLearning ? (completedLessons / totalLessons) * 100 : 0;
+  useEffect(() => {
+    const storedLessons = localStorage.getItem('lessons');
+    if (storedLessons) {
+      setAllLessons(JSON.parse(storedLessons));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      getStudentProgress(user.uid).then((progress) => {
+        setStudentProgress(progress);
+        setIsLoading(false);
+      });
+    } else if (!authLoading) {
+      // If no user and not loading auth, stop loading
+      setIsLoading(false);
+    }
+  }, [user, authLoading]);
+
+  const hasStartedLearning = studentProgress.length > 0;
   
+  const totalLessons = allLessons.length;
+  const completedLessons = studentProgress.filter(p => p.completed).length;
+  const overallProgress = hasStartedLearning && totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
+
   const relevantProgress = studentProgress.filter((p) => p.quizScore !== null);
   const averageScore =
     relevantProgress.length > 0
@@ -49,6 +75,27 @@ export default function Dashboard() {
     .sort((a, b) => (a.lastActivity && b.lastActivity ? new Date(b.lastActivity).getTime() - new Date(a.lastActivity).getTime() : -1))
     .slice(0, 3);
     
+  if (isLoading || authLoading) {
+    return (
+        <div className="flex items-center justify-center h-full">
+            <Loader2 className="w-12 h-12 animate-spin text-primary" />
+        </div>
+    );
+  }
+
+  if (!user) {
+    return (
+       <Card>
+        <CardHeader>
+          <CardTitle>مرحباً بك في الخليل</CardTitle>
+          <CardDescription>
+            سجل دخولك لبدء رحلتك التعليمية وحفظ تقدمك.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    )
+  }
+
   return (
     <div className="flex flex-col gap-8">
        <div className="flex justify-between items-center">
@@ -73,9 +120,9 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent className="p-0 mt-1">
             <div className="text-xl font-bold">{overallProgress.toFixed(0)}%</div>
-            <p className="text-xs text-muted-foreground">
+            {totalLessons > 0 && <p className="text-xs text-muted-foreground">
               {completedLessons} من {totalLessons}
-            </p>
+            </p>}
           </CardContent>
         </Card>
         <Card className="rounded-full w-28 h-28 flex flex-col items-center justify-center text-center p-2">
@@ -107,7 +154,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent className="p-0 mt-1">
             <div className="text-sm font-bold truncate w-full px-2">
-              {recentActivity.length > 0 ? lessons.find(l => l.id === recentActivity[0].lessonId)?.title : 'لا يوجد'}
+              {recentActivity.length > 0 ? allLessons.find(l => l.id === recentActivity[0].lessonId)?.title : 'لا يوجد'}
             </div>
             <p className="text-xs text-muted-foreground">
               {recentActivity.length > 0 && recentActivity[0].quizScore !== null ? `الدرجة: ${recentActivity[0].quizScore}` : ''}
@@ -144,7 +191,7 @@ export default function Dashboard() {
               </TableHeader>
               <TableBody>
                 {studentProgress.slice(0, 5).map((progress) => {
-                  const lesson = lessons.find((l) => l.id === progress.lessonId);
+                  const lesson = allLessons.find((l) => l.id === progress.lessonId);
                   if (!lesson) return null;
                   return (
                     <TableRow key={lesson.id}>

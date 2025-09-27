@@ -12,16 +12,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { grades, studentProgress } from "@/lib/mock-data";
-import { BookOpen, Percent, ClipboardCheck, Activity, Book, X } from "lucide-react";
+import { grades } from "@/lib/mock-data";
+import { BookOpen, Percent, ClipboardCheck, Activity, Book, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
-import type { Lesson } from "@/lib/types";
+import type { Lesson, StudentProgress } from "@/lib/types";
+import { useAuth } from "@/hooks/use-auth";
+import { getStudentProgress } from "@/lib/firestore";
 
 export default function GradeDashboardPage() {
   const params = useParams<{ id: string }>();
+  const { user, loading: authLoading } = useAuth();
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
   const [allLessons, setAllLessons] = useState<Lesson[]>([]);
+  const [studentProgress, setStudentProgress] = useState<StudentProgress[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -29,8 +33,18 @@ export default function GradeDashboardPage() {
     if (storedLessons) {
       setAllLessons(JSON.parse(storedLessons));
     }
-    setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getStudentProgress(user.uid).then((progress) => {
+        setStudentProgress(progress);
+        setIsLoading(false);
+      });
+    } else if (!authLoading) {
+      setIsLoading(false);
+    }
+  }, [user, authLoading]);
 
   const grade = grades.find((g) => g.id === params.id);
   if (!grade) {
@@ -73,8 +87,12 @@ export default function GradeDashboardPage() {
   const units = ['الوحدة الأولى', 'الوحدة الثانية', 'الوحدة الثالثة', 'الوحدة الرابعة', 'الوحدة الخامسة'];
   const lessonsForSelectedUnit = selectedUnit ? lessonsByUnit[selectedUnit] || [] : [];
   
-  if(isLoading) {
-    return <div>جارٍ التحميل...</div>
+  if(isLoading || authLoading) {
+    return (
+        <div className="flex items-center justify-center h-full">
+            <Loader2 className="w-12 h-12 animate-spin text-primary" />
+        </div>
+    );
   }
 
   return (
@@ -95,9 +113,9 @@ export default function GradeDashboardPage() {
             </CardHeader>
             <CardContent className="p-0 mt-1">
                 <div className="text-2xl font-bold">{overallProgress.toFixed(0)}%</div>
-                <p className="text-xs text-muted-foreground">
-                {completedLessons} من {totalLessons}
-                </p>
+                {totalLessons > 0 && <p className="text-xs text-muted-foreground">
+                  {completedLessons} من {totalLessons}
+                </p>}
             </CardContent>
             </Card>
             <Card className="rounded-full w-32 h-32 flex flex-col items-center justify-center text-center p-2">
@@ -146,7 +164,7 @@ export default function GradeDashboardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {units.length > 0 ? (
+            {gradeLessons.length > 0 ? (
                 <div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-8">
                         {units.map((unit) => (

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { Lesson, Quiz } from '@/lib/types';
+import type { Lesson, Quiz, StudentProgress } from '@/lib/types';
 import { Button } from './ui/button';
 import {
   Card,
@@ -13,21 +13,27 @@ import {
 } from './ui/card';
 import { cn } from '@/lib/utils';
 import { Progress } from './ui/progress';
-import { AlertCircle, CheckCircle2, Film, FileText, Sparkles, XCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Film, FileText, Sparkles, XCircle, Loader2 } from 'lucide-react';
 import { getLearningContentSuggestions } from '@/app/actions';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import Link from 'next/link';
 import type { SuggestLearningContentOutput } from '@/ai/flows/suggest-learning-content';
+import { useAuth } from '@/hooks/use-auth';
+import { updateStudentProgress } from '@/lib/firestore';
+import { useToast } from '@/hooks/use-toast';
 
 type QuizState = 'in-progress' | 'completed';
 
 export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [quizState, setQuizState] = useState<QuizState>('in-progress');
   const [score, setScore] = useState(0);
   const [suggestions, setSuggestions] = useState<SuggestLearningContentOutput | null>(null);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex) / quiz.questions.length) * 100;
@@ -36,20 +42,49 @@ export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
     setSelectedAnswers((prev) => ({ ...prev, [questionId]: answer }));
   };
 
+  const handleSubmitQuiz = async () => {
+    setIsSubmitting(true);
+    let correctAnswers = 0;
+    quiz.questions.forEach((q) => {
+      if (selectedAnswers[q.id] === q.correctAnswer) {
+        correctAnswers++;
+      }
+    });
+    const finalScore = (correctAnswers / quiz.questions.length) * 100;
+    setScore(finalScore);
+
+    if (user) {
+      const progressData: Partial<StudentProgress> = {
+        lessonId: lesson.id,
+        quizScore: finalScore,
+        completed: true,
+        lastActivity: new Date().toISOString(),
+      };
+      try {
+        await updateStudentProgress(user.uid, progressData);
+         toast({
+          title: 'أحسنت!',
+          description: 'تم حفظ تقدمك بنجاح.',
+        });
+      } catch (error) {
+         toast({
+          title: 'خطأ',
+          description: 'لم نتمكن من حفظ تقدمك. يرجى المحاولة مرة أخرى.',
+          variant: 'destructive',
+        });
+        console.error("Failed to save progress: ", error);
+      }
+    }
+
+    setQuizState('completed');
+    setIsSubmitting(false);
+  };
+
   const handleNext = () => {
     if (currentQuestionIndex < quiz.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      // End of quiz
-      let correctAnswers = 0;
-      quiz.questions.forEach((q) => {
-        if (selectedAnswers[q.id] === q.correctAnswer) {
-          correctAnswers++;
-        }
-      });
-      const finalScore = (correctAnswers / quiz.questions.length) * 100;
-      setScore(finalScore);
-      setQuizState('completed');
+      handleSubmitQuiz();
     }
   };
 
@@ -59,7 +94,7 @@ export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
     const response = await getLearningContentSuggestions({
       quizPerformance: performanceSummary,
       lessonTopic: lesson.title,
-      studentId: 'student-123', // Mock student ID
+      studentId: user?.uid || 'student-123', // Use real user ID if available
     });
     if(response.success && response.data){
         setSuggestions(response.data);
@@ -160,10 +195,10 @@ export function QuizClient({ lesson, quiz }: { lesson: Lesson; quiz: Quiz }) {
         <CardFooter>
           <Button
             onClick={handleNext}
-            disabled={!selectedAnswers[currentQuestion.id]}
+            disabled={!selectedAnswers[currentQuestion.id] || isSubmitting}
             className="w-full"
           >
-            {currentQuestionIndex < quiz.questions.length - 1 ? 'التالي' : 'إنهاء الاختبار'}
+            {isSubmitting ? <Loader2 className="animate-spin" /> : (currentQuestionIndex < quiz.questions.length - 1 ? 'التالي' : 'إنهاء الاختبار')}
           </Button>
         </CardFooter>
       </Card>

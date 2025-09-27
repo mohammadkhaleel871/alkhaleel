@@ -34,12 +34,7 @@ export const quizzes: Quiz[] = [
   },
 ];
 
-export const studentProgress: StudentProgress[] = [
-  { lessonId: 'g7-1', completed: true, quizScore: 100, lastActivity: '2024-05-20T10:00:00Z' },
-  { lessonId: 'g10-1', completed: false, quizScore: null, lastActivity: '2024-05-21T11:30:00Z' },
-  { lessonId: 'g8-1', completed: true, quizScore: 50, lastActivity: '2024-05-22T09:00:00Z' },
-  { lessonId: 'g12-2', completed: false, quizScore: 70, lastActivity: '2024-05-23T09:00:00Z' },
-];
+export const studentProgress: StudentProgress[] = [];
 
 export const resources: Resource[] = [
     {
