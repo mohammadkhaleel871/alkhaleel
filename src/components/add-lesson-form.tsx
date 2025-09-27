@@ -21,14 +21,15 @@ interface AddLessonFormProps {
   grade: Grade; // Can be the real grade or a dummy one for non-curriculum
   onLessonSubmit: (lesson: Lesson, isEditing: boolean) => void;
   existingLesson?: Lesson | null;
+  defaultCategory: Lesson['category'];
 }
 
-export function AddLessonForm({ grade, onLessonSubmit, existingLesson }: AddLessonFormProps) {
+export function AddLessonForm({ grade, onLessonSubmit, existingLesson, defaultCategory }: AddLessonFormProps) {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [unit, setUnit] = useState('');
-  const [category, setCategory] = useState<Lesson['category']>('jordanian-curriculum');
+  const [category, setCategory] = useState<Lesson['category']>(defaultCategory);
   const [selectedGradeName, setSelectedGradeName] = useState(grade.name);
 
   const { toast } = useToast();
@@ -41,7 +42,7 @@ export function AddLessonForm({ grade, onLessonSubmit, existingLesson }: AddLess
       setSummary(existingLesson.summary);
       setVideoUrl(existingLesson.videoUrl);
       setUnit(existingLesson.unit);
-      setCategory(existingLesson.category || 'jordanian-curriculum');
+      setCategory(existingLesson.category || defaultCategory);
       setSelectedGradeName(existingLesson.grade);
     } else {
         // Reset form when adding a new lesson
@@ -49,10 +50,10 @@ export function AddLessonForm({ grade, onLessonSubmit, existingLesson }: AddLess
         setSummary('');
         setVideoUrl('');
         setUnit('');
-        setCategory(grade.id === 'general' ? 'general-lessons' : 'jordanian-curriculum'); // Pre-select category based on where 'add' was clicked
+        setCategory(defaultCategory); 
         setSelectedGradeName(grade.name);
     }
-  }, [existingLesson, grade]);
+  }, [existingLesson, grade, defaultCategory]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,5 +180,3 @@ export function AddLessonForm({ grade, onLessonSubmit, existingLesson }: AddLess
     </form>
   );
 }
-
-    

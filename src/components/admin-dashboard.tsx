@@ -99,7 +99,7 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
   }
 
   const onLessonSubmit = async (lessonData: Lesson, isEditing: boolean) => {
-    setIsAddEditDialogOpen(false);
+    setIsLoading(true);
     // When editing, if the grade is 'عام', but category is 'jordanian-curriculum', we should prompt for a real grade.
     // For now, the form handles this logic.
     // Let's ensure non-curriculum items have a generic grade.
@@ -113,15 +113,18 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
         } else {
             await addLesson(lessonData);
         }
-        fetchLessons(); // Refetch to get the latest list
+        await fetchLessons(); // Refetch to get the latest list
     } catch (e) {
         toast({
             title: 'خطأ',
             description: 'فشل حفظ الدرس.',
             variant: 'destructive',
         });
+    } finally {
+        setIsLoading(false);
+        setIsAddEditDialogOpen(false);
+        setLessonToEdit(null);
     }
-    setLessonToEdit(null);
   };
   
   const getLessonsForCategory = (category: Lesson['category']) => {
@@ -267,7 +270,7 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
               {lessonToEdit ? `تعديل: ${lessonToEdit.title}` : `إضافة محتوى جديد`}
             </DialogTitle>
           </DialogHeader>
-          {selectedGrade && <AddLessonForm grade={selectedGrade} onLessonSubmit={onLessonSubmit} existingLesson={lessonToEdit} />}
+          {selectedGrade && <AddLessonForm grade={selectedGrade} onLessonSubmit={onLessonSubmit} existingLesson={lessonToEdit} defaultCategory={defaultCategory} />}
         </DialogContent>
       </Dialog>
       
@@ -289,5 +292,3 @@ export function AdminDashboard({ initialLessons }: { initialLessons: Lesson[] })
     </div>
   );
 }
-
-    
