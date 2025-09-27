@@ -45,10 +45,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     // We can only access localStorage on the client side
-    const storedLessons = localStorage.getItem('lessons');
-    if (storedLessons) {
-      setAllLessons(JSON.parse(storedLessons));
-    }
+    // For this request, we clear the lessons to provide a clean slate.
+    localStorage.removeItem('lessons');
+    setAllLessons([]);
     setIsMounted(true); // Component is mounted and can safely access localStorage
   }, []);
 
