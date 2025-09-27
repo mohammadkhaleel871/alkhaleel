@@ -2,6 +2,7 @@ export interface Lesson {
   id: string;
   title: string;
   grade: string;
+  unit: string;
   summary: string;
   videoUrl: string;
   quizId: string;

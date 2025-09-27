@@ -9,15 +9,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { grades, lessons as allLessons, studentProgress } from "@/lib/mock-data";
-import { BookOpen, ArrowUpRight, Percent, ClipboardCheck, Activity } from "lucide-react";
+import { BookOpen, Percent, ClipboardCheck, Activity, Book } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -50,6 +48,15 @@ export default function GradeDashboardPage({ params }: { params: { id: string } 
     .slice()
     .sort((a, b) => (a.lastActivity && b.lastActivity ? new Date(b.lastActivity).getTime() - new Date(a.lastActivity).getTime() : -1))
     .slice(0, 1);
+
+  const lessonsByUnit = gradeLessons.reduce((acc, lesson) => {
+    const unit = lesson.unit || 'وحدات متنوعة';
+    if (!acc[unit]) {
+      acc[unit] = [];
+    }
+    acc[unit].push(lesson);
+    return acc;
+  }, {} as Record<string, typeof gradeLessons>);
 
   return (
     <div>
@@ -116,51 +123,51 @@ export default function GradeDashboardPage({ params }: { params: { id: string } 
           <CardHeader>
             <CardTitle>وحدات {grade.name}</CardTitle>
             <CardDescription>
-              {totalLessons > 0 ? 'ابدأ درسًا جديدًا أو راجع الدروس المكتملة.' : 'لا توجد دروس متاحة حاليًا لهذا الصف.'}
+              {totalLessons > 0 ? 'اختر وحدة للبدء أو لمراجعة الدروس.' : 'لا توجد وحدات متاحة حاليًا لهذا الصف.'}
             </CardDescription>
           </CardHeader>
           <CardContent>
             {totalLessons > 0 ? (
-                <Table>
-                <TableHeader>
-                    <TableRow>
-                    <TableHead>الوحدة</TableHead>
-                    <TableHead>الحالة</TableHead>
-                    <TableHead className="text-right">الإجراء</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {gradeLessons.map((lesson) => {
-                    const progress = gradeProgress.find(p => p.lessonId === lesson.id);
-                    return (
-                        <TableRow key={lesson.id}>
-                        <TableCell>
-                            <div className="font-medium">{lesson.title}</div>
-                        </TableCell>
-                        <TableCell>
-                            {progress ? (
-                                 <Badge variant={progress.completed ? 'default' : 'secondary'} className={progress.completed ? 'bg-green-600' : ''}>
-                                    {progress.completed ? 'مكتمل' : 'قيد التقدم'}
-                                </Badge>
-                            ) : (
-                                <Badge variant="outline">لم تبدأ</Badge>
-                            )}
-                        </TableCell>
-                        <TableCell className="text-right">
-                            <Link href={`/lessons/${lesson.id}`} passHref>
-                            <Button size="sm" variant="outline">
-                                {progress?.completed ? 'مراجعة' : 'ابدأ الدرس'}
-                            </Button>
-                            </Link>
-                        </TableCell>
-                        </TableRow>
-                    );
-                    })}
-                </TableBody>
-                </Table>
+                <Accordion type="single" collapsible className="w-full">
+                {Object.entries(lessonsByUnit).map(([unit, lessonsInUnit]) => (
+                  <AccordionItem value={unit} key={unit}>
+                    <AccordionTrigger className="text-lg font-medium">{unit}</AccordionTrigger>
+                    <AccordionContent>
+                      <div className="flex flex-col gap-4 p-2">
+                        {lessonsInUnit.map((lesson) => {
+                           const progress = gradeProgress.find(p => p.lessonId === lesson.id);
+                          return (
+                            <div
+                              key={lesson.id}
+                              className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+                            >
+                                <div className="flex flex-col">
+                                    <span className="font-medium">{lesson.title}</span>
+                                     {progress ? (
+                                        <Badge variant={progress.completed ? 'default' : 'secondary'} className={`w-fit mt-1 ${progress.completed ? 'bg-green-600' : ''}`}>
+                                            {progress.completed ? 'مكتمل' : 'قيد التقدم'}
+                                        </Badge>
+                                    ) : (
+                                        <Badge variant="outline" className="w-fit mt-1">لم تبدأ</Badge>
+                                    )}
+                                </div>
+                              <Link href={`/lessons/${lesson.id}`} passHref>
+                                <Button size="sm" variant="outline">
+                                  {progress?.completed ? 'مراجعة' : 'ابدأ الدرس'}
+                                </Button>
+                              </Link>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             ) : (
-                 <div className="text-center text-muted-foreground py-10">
-                    <p>سيتم إضافة الدروس قريبًا.</p>
+                 <div className="text-center text-muted-foreground py-10 flex flex-col items-center gap-4">
+                    <Book className="w-16 h-16 text-muted-foreground/50" />
+                    <p>سيتم إضافة الوحدات والدروس قريبًا.</p>
                 </div>
             )}
           </CardContent>
