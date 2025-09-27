@@ -88,25 +88,25 @@ export default function HomePage() {
               </svg>
           </div>
 
-          <div className="relative flex flex-col min-h-[50vh] md:min-h-[65vh] items-center text-center p-4 pt-12 md:pt-20 max-w-4xl mx-auto z-10">
-            <div className="w-40 h-28 md:w-64 md:h-48">
+          <div className="relative flex flex-col items-center text-center p-4 pt-16 md:pt-24 max-w-4xl mx-auto z-10 min-h-[50vh] md:min-h-[65vh]">
+            <div className="w-40 h-28 md:w-80 md:h-64">
               <LogoIcon className="w-full h-full" />
             </div>
             
-            <p className="mt-4 text-3xl md:text-7xl font-medium text-white/90 font-headline">
+            <p className="mt-4 text-3xl md:text-8xl font-medium text-white/90 font-headline">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
-            <p className="mt-3 max-w-2xl mx-auto text-lg md:text-4xl text-white/70">
+            <p className="mt-3 max-w-2xl mx-auto text-lg md:text-5xl text-white/70">
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
           </div>
 
            {/* Core Sections Quick Access */}
           <div className="relative container mx-auto px-4 z-10 md:transform md:-translate-y-32">
-            <div className="grid grid-cols-3 gap-2 md:gap-8">
+            <div className="grid grid-cols-3 gap-2">
               {sections.map((section) => (
                 <Link href={section.href} key={section.title} className="group">
-                  <div className="relative text-center h-full p-4 md:p-6 transition-all duration-300 ease-in-out border-2 border-transparent hover:border-secondary/50 bg-card hover:shadow-2xl hover:shadow-secondary/10 rounded-xl overflow-hidden">
+                  <div className="relative text-center h-full p-4 transition-all duration-300 ease-in-out border-2 border-transparent hover:border-secondary/50 bg-card hover:shadow-2xl hover:shadow-secondary/10 rounded-xl overflow-hidden">
                      {/* Decorative geometric background */}
                     <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity">
                          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="geom" patternUnits="userSpaceOnUse" width="40" height="40"><path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="hsl(var(--secondary))" strokeWidth="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#geom)"/></svg>
