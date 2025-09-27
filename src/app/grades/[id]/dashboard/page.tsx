@@ -1,3 +1,7 @@
+
+'use client';
+
+import { useState } from "react";
 import { BackButton } from "@/components/layout/back-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,18 +12,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { grades, lessons as allLessons, studentProgress } from "@/lib/mock-data";
-import { BookOpen, Percent, ClipboardCheck, Activity, Book } from "lucide-react";
+import { BookOpen, Percent, ClipboardCheck, Activity, Book, X } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default function GradeDashboardPage({ params }: { params: { id: string } }) {
+  const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
+
   const grade = grades.find((g) => g.id === params.id);
   if (!grade) {
     notFound();
@@ -57,6 +57,9 @@ export default function GradeDashboardPage({ params }: { params: { id: string } 
     acc[unit].push(lesson);
     return acc;
   }, {} as Record<string, typeof gradeLessons>);
+
+  const units = ['الوحدة الأولى', 'الوحدة الثانية', 'الوحدة الثالثة', 'الوحدة الرابعة', 'الوحدة الخامسة'];
+  const lessonsForSelectedUnit = selectedUnit ? lessonsByUnit[selectedUnit] : [];
 
   return (
     <div>
@@ -128,42 +131,60 @@ export default function GradeDashboardPage({ params }: { params: { id: string } 
           </CardHeader>
           <CardContent>
             {totalLessons > 0 ? (
-                <Accordion type="single" collapsible className="w-full">
-                {Object.entries(lessonsByUnit).map(([unit, lessonsInUnit]) => (
-                  <AccordionItem value={unit} key={unit}>
-                    <AccordionTrigger className="text-lg font-medium">{unit}</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="flex flex-col gap-4 p-2">
-                        {lessonsInUnit.map((lesson) => {
-                           const progress = gradeProgress.find(p => p.lessonId === lesson.id);
-                          return (
-                            <div
-                              key={lesson.id}
-                              className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+                <div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-8">
+                        {units.map((unit) => (
+                             <Card 
+                                key={unit} 
+                                className={`text-center p-4 flex flex-col items-center justify-center cursor-pointer transition-all ${selectedUnit === unit ? 'border-primary ring-2 ring-primary' : 'hover:border-primary/50'}`}
+                                onClick={() => setSelectedUnit(selectedUnit === unit ? null : unit)}
                             >
-                                <div className="flex flex-col">
-                                    <span className="font-medium">{lesson.title}</span>
-                                     {progress ? (
-                                        <Badge variant={progress.completed ? 'default' : 'secondary'} className={`w-fit mt-1 ${progress.completed ? 'bg-green-600' : ''}`}>
-                                            {progress.completed ? 'مكتمل' : 'قيد التقدم'}
-                                        </Badge>
-                                    ) : (
-                                        <Badge variant="outline" className="w-fit mt-1">لم تبدأ</Badge>
-                                    )}
-                                </div>
-                              <Link href={`/lessons/${lesson.id}`} passHref>
-                                <Button size="sm" variant="outline">
-                                  {progress?.completed ? 'مراجعة' : 'ابدأ الدرس'}
+                                <Book className="w-8 h-8 text-primary mb-2" />
+                                <h3 className="text-sm font-medium">{unit}</h3>
+                            </Card>
+                        ))}
+                    </div>
+
+                    {selectedUnit && (
+                        <div>
+                             <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-xl font-bold">{selectedUnit}</h3>
+                                <Button variant="ghost" size="icon" onClick={() => setSelectedUnit(null)}>
+                                    <X className="h-5 w-5" />
                                 </Button>
-                              </Link>
                             </div>
-                          )
-                        })}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+                            <div className="flex flex-col gap-4 p-2 border rounded-lg">
+                                {lessonsForSelectedUnit.length > 0 ? lessonsForSelectedUnit.map((lesson) => {
+                                const progress = gradeProgress.find(p => p.lessonId === lesson.id);
+                                return (
+                                    <div
+                                    key={lesson.id}
+                                    className="flex items-center justify-between p-3 rounded-lg bg-card hover:bg-muted/50 transition-colors"
+                                    >
+                                        <div className="flex flex-col">
+                                            <span className="font-medium">{lesson.title}</span>
+                                            {progress ? (
+                                                <Badge variant={progress.completed ? 'default' : 'secondary'} className={`w-fit mt-1 ${progress.completed ? 'bg-green-600' : ''}`}>
+                                                    {progress.completed ? 'مكتمل' : 'قيد التقدم'}
+                                                </Badge>
+                                            ) : (
+                                                <Badge variant="outline" className="w-fit mt-1">لم تبدأ</Badge>
+                                            )}
+                                        </div>
+                                    <Link href={`/lessons/${lesson.id}`} passHref>
+                                        <Button size="sm" variant="outline">
+                                        {progress?.completed ? 'مراجعة' : 'ابدأ الدرس'}
+                                        </Button>
+                                    </Link>
+                                    </div>
+                                )
+                                }) : (
+                                    <p className="text-muted-foreground text-center p-4">لا توجد دروس متاحة في هذه الوحدة بعد.</p>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
             ) : (
                  <div className="text-center text-muted-foreground py-10 flex flex-col items-center gap-4">
                     <Book className="w-16 h-16 text-muted-foreground/50" />
