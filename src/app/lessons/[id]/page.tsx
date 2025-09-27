@@ -10,6 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { BackButton } from '@/components/layout/back-button';
 
 export default function LessonDetailPage({ params }: { params: { id: string } }) {
   const lesson = lessons.find((l) => l.id === params.id);
@@ -20,6 +21,7 @@ export default function LessonDetailPage({ params }: { params: { id: string } })
 
   return (
     <div className="max-w-4xl mx-auto">
+      <BackButton />
       <Card className="overflow-hidden">
         <CardHeader className="p-0">
           <div className="relative w-full aspect-video">
