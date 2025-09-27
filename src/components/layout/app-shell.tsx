@@ -56,9 +56,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-3 p-2">
-            <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">
-              خ
-            </div>
             <span className="text-lg font-semibold">الخليل</span>
           </div>
         </SidebarHeader>
