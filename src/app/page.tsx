@@ -61,7 +61,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <main className="flex-1">
         {/* Hero and Sections Container */}
-        <section className="relative w-full pt-0 pb-8 md:pb-12">
+        <section className="relative w-full pt-0 pb-4 md:pb-12">
            {/* Background Texture & Overlay */}
           <div
             className="absolute inset-0 bg-background"
@@ -88,7 +88,7 @@ export default function HomePage() {
               </svg>
           </div>
 
-          <div className="relative flex flex-col min-h-[60vh] md:min-h-[75vh] items-center justify-center text-center p-4 max-w-4xl mx-auto z-10">
+          <div className="relative flex flex-col min-h-0 md:min-h-[75vh] items-center justify-center text-center p-4 max-w-4xl mx-auto z-10">
             <div className="w-48 h-28 md:w-96 md:h-56">
               <LogoIcon className="w-full h-full" />
             </div>
