@@ -71,7 +71,7 @@ export default function LessonDetailPage() {
       <BackButton />
       <Card className="overflow-hidden">
         <CardHeader className="p-0">
-          <div className="relative w-full aspect-video">
+           <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
             <iframe
               src={embedUrl}
               title="YouTube video player"
