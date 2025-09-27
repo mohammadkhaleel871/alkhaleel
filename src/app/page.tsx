@@ -88,15 +88,15 @@ export default function HomePage() {
               </svg>
           </div>
 
-          <div className="relative flex flex-col items-center text-center p-4 pt-16 md:pt-24 max-w-4xl mx-auto z-10 min-h-[50vh] md:min-h-[65vh]">
-            <div className="w-40 h-28 md:w-80 md:h-64">
+          <div className="relative flex flex-col items-center text-center p-4 pt-12 md:pt-20 max-w-4xl mx-auto z-10 min-h-[50vh] md:min-h-[65vh]">
+            <div className="w-32 h-24 md:w-80 md:h-64">
               <LogoIcon className="w-full h-full" />
             </div>
             
-            <p className="mt-4 text-3xl md:text-8xl font-medium text-white/90 font-headline">
+            <p className="mt-4 text-2xl md:text-8xl font-medium text-white/90 font-headline">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
-            <p className="mt-3 max-w-2xl mx-auto text-lg md:text-5xl text-white/70">
+            <p className="mt-3 max-w-2xl mx-auto text-base md:text-5xl text-white/70">
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
           </div>
