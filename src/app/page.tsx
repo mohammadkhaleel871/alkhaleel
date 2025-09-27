@@ -88,15 +88,15 @@ export default function HomePage() {
               </svg>
           </div>
 
-          <div className="relative flex flex-col pt-16 md:pt-24 min-h-[50vh] md:min-h-[65vh] items-center text-center p-4 max-w-4xl mx-auto z-10">
-            <div className="w-48 h-32 md:w-56 md:h-40">
+          <div className="relative flex flex-col min-h-[50vh] md:min-h-[65vh] items-center text-center p-4 pt-12 md:pt-20 max-w-4xl mx-auto z-10">
+            <div className="w-40 h-28 md:w-64 md:h-48">
               <LogoIcon className="w-full h-full" />
             </div>
             
-            <p className="mt-4 text-3xl md:text-6xl font-medium text-white/90 font-headline">
+            <p className="mt-4 text-3xl md:text-7xl font-medium text-white/90 font-headline">
               بوابتك المتكاملة لإتقان اللغة العربية.
             </p>
-            <p className="mt-3 max-w-2xl mx-auto text-lg md:text-3xl text-white/70">
+            <p className="mt-3 max-w-2xl mx-auto text-lg md:text-4xl text-white/70">
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
           </div>
@@ -115,8 +115,8 @@ export default function HomePage() {
                         <div className="p-4 bg-secondary/10 rounded-full group-hover:scale-110 transition-transform border border-secondary/20">
                             {section.icon}
                         </div>
-                        <h3 className="text-xl font-bold text-foreground mt-4">{section.title}</h3>
-                        <p className="mt-2 text-muted-foreground">{section.description}</p>
+                        <h3 className="text-lg md:text-xl font-bold text-foreground mt-4">{section.title}</h3>
+                        <p className="mt-2 text-sm md:text-base text-muted-foreground">{section.description}</p>
                     </div>
                   </div>
                 </Link>
