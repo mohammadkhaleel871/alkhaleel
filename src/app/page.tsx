@@ -105,9 +105,6 @@ export default function HomePage() {
             <p className="mt-3 max-w-2xl mx-auto text-base md:text-lg text-white/70">
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
-            <Button asChild size="lg" className="mt-8 bg-gradient-to-b from-secondary to-yellow-600 text-primary-foreground font-bold text-lg shadow-lg hover:shadow-secondary/30 transition-shadow duration-300">
-                <Link href="/dashboard">ابدأ رحلتك الآن</Link>
-            </Button>
           </div>
         </section>
 
