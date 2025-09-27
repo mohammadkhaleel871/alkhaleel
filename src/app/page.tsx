@@ -50,50 +50,50 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="rounded-full w-48 h-48 flex flex-col items-center justify-center text-center p-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 justify-items-center">
+        <Card className="rounded-full w-36 h-36 flex flex-col items-center justify-center text-center p-2">
           <CardHeader className="p-0">
-            <BookOpen className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
-            <CardTitle className="text-sm font-medium">
+            <BookOpen className="h-5 w-5 text-muted-foreground mx-auto mb-1" />
+            <CardTitle className="text-xs font-medium">
               التقدم العام
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-0 mt-2">
-            <div className="text-3xl font-bold">{overallProgress.toFixed(0)}%</div>
+          <CardContent className="p-0 mt-1">
+            <div className="text-2xl font-bold">{overallProgress.toFixed(0)}%</div>
             <p className="text-xs text-muted-foreground">
               {completedLessons} من {totalLessons}
             </p>
           </CardContent>
         </Card>
-        <Card className="rounded-full w-48 h-48 flex flex-col items-center justify-center text-center p-4">
+        <Card className="rounded-full w-36 h-36 flex flex-col items-center justify-center text-center p-2">
           <CardHeader className="p-0">
-            <Percent className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
-            <CardTitle className="text-sm font-medium">
+            <Percent className="h-5 w-5 text-muted-foreground mx-auto mb-1" />
+            <CardTitle className="text-xs font-medium">
               متوسط درجة الاختبار
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-0 mt-2">
-            <div className="text-3xl font-bold">{averageScore.toFixed(0)}%</div>
+          <CardContent className="p-0 mt-1">
+            <div className="text-2xl font-bold">{averageScore.toFixed(0)}%</div>
           </CardContent>
         </Card>
-        <Card className="rounded-full w-48 h-48 flex flex-col items-center justify-center text-center p-4">
+        <Card className="rounded-full w-36 h-36 flex flex-col items-center justify-center text-center p-2">
           <CardHeader className="p-0">
-            <ClipboardCheck className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
-            <CardTitle className="text-sm font-medium">الدروس المكتملة</CardTitle>
+            <ClipboardCheck className="h-5 w-5 text-muted-foreground mx-auto mb-1" />
+            <CardTitle className="text-xs font-medium">الدروس المكتملة</CardTitle>
           </CardHeader>
-          <CardContent className="p-0 mt-2">
-            <div className="text-3xl font-bold">+{completedLessons}</div>
+          <CardContent className="p-0 mt-1">
+            <div className="text-2xl font-bold">+{completedLessons}</div>
           </CardContent>
         </Card>
-         <Card className="rounded-full w-48 h-48 flex flex-col items-center justify-center text-center p-4">
+         <Card className="rounded-full w-36 h-36 flex flex-col items-center justify-center text-center p-2">
           <CardHeader className="p-0">
-            <Activity className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
-            <CardTitle className="text-sm font-medium">
+            <Activity className="h-5 w-5 text-muted-foreground mx-auto mb-1" />
+            <CardTitle className="text-xs font-medium">
               آخر نشاط
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-0 mt-2">
-            <div className="text-lg font-bold">
+          <CardContent className="p-0 mt-1">
+            <div className="text-base font-bold truncate w-full px-2">
               {recentActivity.length > 0 ? lessons.find(l => l.id === recentActivity[0].lessonId)?.title : 'لا يوجد'}
             </div>
             <p className="text-xs text-muted-foreground">
