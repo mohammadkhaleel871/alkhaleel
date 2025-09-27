@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ArrowLeft, BookOpen, Library, Map } from 'lucide-react';
+import { BookOpen, Library, Map } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -10,19 +10,19 @@ export default function HomePage() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-alkhalil');
   const sections = [
     {
-      icon: <Map className="w-12 h-12 text-primary" />,
+      icon: <Map className="w-8 h-8 text-primary" />,
       title: 'المنهاج الأردني',
       description: 'دروس شاملة من الصف الخامس للتوجيهي.',
       href: '/lessons',
     },
     {
-      icon: <BookOpen className="w-12 h-12 text-primary" />,
+      icon: <BookOpen className="w-8 h-8 text-primary" />,
       title: 'الدروس العامة',
       description: 'النحو، الصرف، البلاغة، والشعر.',
       href: '/lessons',
     },
     {
-      icon: <Library className="w-12 h-12 text-primary" />,
+      icon: <Library className="w-8 h-8 text-primary" />,
       title: 'المكتبة',
       description: 'ملخصات، أوراق عمل، ودوسيات.',
       href: '/library',
@@ -57,38 +57,27 @@ export default function HomePage() {
             <p className="mt-2 max-w-2xl mx-auto text-base md:text-lg text-neutral-200">
               دروس منهجية، موارد حصرية، واختبارات تفاعلية. كل ما تحتاجه في مكان واحد.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-                 <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                    <Link href="/dashboard">
-                        لوحة التحكم
-                        <ArrowLeft className="mr-2 h-5 w-5" />
-                    </Link>
-                </Button>
-                <Button asChild size="lg" variant="secondary">
-                    <Link href="/lessons">
-                        ابدأ التعلم الآن
-                    </Link>
-                </Button>
-            </div>
           </div>
         </section>
 
         {/* Core Sections Quick Access */}
         <section className="py-12 md:py-20 bg-background">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {sections.map((section) => (
-                <Card key={section.title} className="text-center hover:shadow-lg transition-shadow duration-300">
-                  <CardHeader className="items-center">
-                    <div className="p-4 bg-primary/10 rounded-full mb-4">
-                      {section.icon}
-                    </div>
-                    <CardTitle className="text-xl font-bold">{section.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-base">{section.description}</CardDescription>
-                  </CardContent>
-                </Card>
+                <Link href={section.href} key={section.title} className="group">
+                  <Card className="text-center h-full transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-2 border-2 border-transparent hover:border-primary">
+                    <CardHeader className="items-center">
+                      <div className="p-3 bg-primary/10 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                        {section.icon}
+                      </div>
+                      <CardTitle className="text-lg font-bold">{section.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription>{section.description}</CardDescription>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>
