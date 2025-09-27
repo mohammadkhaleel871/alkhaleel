@@ -97,7 +97,7 @@ const SidebarProvider = React.forwardRef<
     }, [isMobile, setOpen, setOpenMobile])
     
     // On the first client render, we read the cookie to set the sidebar state.
-    useEffect(() => {
+    React.useEffect(() => {
       const cookieValue = document.cookie
         .split("; ")
         .find((row) => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`))
@@ -788,5 +788,7 @@ export {
   SidebarTrigger,
   useSidebar,
 }
+
+    
 
     
