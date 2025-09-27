@@ -8,25 +8,48 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg {...props} viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <linearGradient id="green-gradient" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stopColor="hsl(158, 80%, 40%)" />
-                    <stop offset="100%" stopColor="hsl(158, 95%, 20%)" />
+                <linearGradient id="gold-gradient-pen" x1="50%" y1="0%" x2="50%" y2="100%">
+                    <stop offset="0%" stopColor="#FDE047" />
+                    <stop offset="50%" stopColor="#F5B92D" />
+                    <stop offset="100%" stopColor="#D4AF37" />
+                </linearGradient>
+                <linearGradient id="green-gradient-text" x1="50%" y1="0%" x2="50%" y2="100%">
+                    <stop offset="0%" stopColor="#22c55e" />
+                    <stop offset="100%" stopColor="#15803d" />
                 </linearGradient>
             </defs>
-            
-            {/* Modern Kufi-inspired "Al-Khalil" */}
-            <path 
-                d="M165 75V45H155V75H145V45H135V80C135 82.7614 137.239 85 140 85H150C152.761 85 155 82.7614 155 80V75H165ZM125 45H115V85H125V45ZM105 45H95V85H105V45ZM85 75V45H75V80C75 82.7614 77.2386 85 80 85H85V75ZM65 45H55V85H65V45ZM45 45H35V85H45V45Z"
-                fill="url(#green-gradient)"
-            />
 
-            {/* The "L" extending down to form the pen nib */}
-            <path d="M135 80C135 82.7614 132.761 85 130 85H50L60 115H140L135 80Z" fill="#D4AF37"/>
-            <path d="M65 108 L70 118" stroke="#D4AF37" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M75 105 L80 115" stroke="#D4AF37" strokeWidth="2.5" strokeLinecap="round"/>
+            {/* "الخليل" in the specified Kufic style */}
+            <g fill="url(#green-gradient-text)">
+                {/* ا */}
+                <path d="M168 30H156V72H168V30Z" />
+                {/* ل */}
+                <path d="M152 30H140V72H152V30Z" />
+                {/* خ */}
+                <path d="M136 43V30H108V43H116.667L122 49L127.333 43H136Z" />
+                <path d="M122 53L127.333 59H116.667L122 53Z" />
+                <circle cx="122" cy="22" r="3" />
+                {/* ل */}
+                <path d="M104 30H92V72H104V30Z" />
+                {/* ي */}
+                <path d="M88 43V30H70V43H88Z" />
+                <path d="M88 47H70V61H88V47Z" />
+                <circle cx="76" cy="67" r="3" />
+                <circle cx="82" cy="67" r="3" />
+                {/* ل */}
+                <path d="M66 30H54V72H66V30Z" />
+            </g>
+            
+            {/* Golden Pen base */}
+            <g fill="url(#gold-gradient-pen)">
+                <path d="M45 75 H175 L165 85 H55 L45 75 Z" />
+                <path d="M55 87 H165 L158 95 H62 L55 87 Z" />
+                <path d="M95 97 L125 97 L110 112 L95 97 Z" />
+            </g>
         </svg>
     )
 }
+
 
 export default function HomePage() {
   const sections = [
