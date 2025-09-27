@@ -24,7 +24,6 @@ import {
 } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { lessons, studentProgress } from '@/lib/mock-data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
@@ -52,60 +51,53 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col gap-8">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="rounded-full w-48 h-48 flex flex-col items-center justify-center text-center p-4">
+          <CardHeader className="p-0">
+            <BookOpen className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
             <CardTitle className="text-sm font-medium">
               التقدم العام
             </CardTitle>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{overallProgress.toFixed(0)}%</div>
+          <CardContent className="p-0 mt-2">
+            <div className="text-3xl font-bold">{overallProgress.toFixed(0)}%</div>
             <p className="text-xs text-muted-foreground">
-              {completedLessons} من {totalLessons} دروس مكتملة
+              {completedLessons} من {totalLessons}
             </p>
-            <Progress value={overallProgress} className="mt-2 h-2" />
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="rounded-full w-48 h-48 flex flex-col items-center justify-center text-center p-4">
+          <CardHeader className="p-0">
+            <Percent className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
             <CardTitle className="text-sm font-medium">
               متوسط درجة الاختبار
             </CardTitle>
-            <Percent className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{averageScore.toFixed(0)}%</div>
-            <p className="text-xs text-muted-foreground">
-              عبر جميع الاختبارات المكتملة
-            </p>
+          <CardContent className="p-0 mt-2">
+            <div className="text-3xl font-bold">{averageScore.toFixed(0)}%</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="rounded-full w-48 h-48 flex flex-col items-center justify-center text-center p-4">
+          <CardHeader className="p-0">
+            <ClipboardCheck className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
             <CardTitle className="text-sm font-medium">الدروس المكتملة</CardTitle>
-            <ClipboardCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+{completedLessons}</div>
-            <p className="text-xs text-muted-foreground">
-              استمر في العمل الرائع!
-            </p>
+          <CardContent className="p-0 mt-2">
+            <div className="text-3xl font-bold">+{completedLessons}</div>
           </CardContent>
         </Card>
-         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+         <Card className="rounded-full w-48 h-48 flex flex-col items-center justify-center text-center p-4">
+          <CardHeader className="p-0">
+            <Activity className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
             <CardTitle className="text-sm font-medium">
               آخر نشاط
             </CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {recentActivity.length > 0 ? lessons.find(l => l.id === recentActivity[0].lessonId)?.title : 'لا يوجد نشاط'}
+          <CardContent className="p-0 mt-2">
+            <div className="text-lg font-bold">
+              {recentActivity.length > 0 ? lessons.find(l => l.id === recentActivity[0].lessonId)?.title : 'لا يوجد'}
             </div>
             <p className="text-xs text-muted-foreground">
-              {recentActivity.length > 0 ? `الدرجة: ${recentActivity[0].quizScore || 'N/A'}` : 'ابدأ درسًا لترى نشاطك'}
+              {recentActivity.length > 0 ? `الدرجة: ${recentActivity[0].quizScore || 'N/A'}` : ''}
             </p>
           </CardContent>
         </Card>
