@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "user-avatar",
+      "description": "User avatar",
+      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NTg5MDE5MzN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "lesson-grammar",
+      "description": "Arabic grammar lesson",
+      "imageUrl": "https://images.unsplash.com/photo-1553538644-f3fa6f592bc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxib29rcyUyMGxpYnJhcnl8ZW58MHx8fHwxNzU4ODg3NzExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "books library"
+    },
+    {
+      "id": "lesson-literature",
+      "description": "Arabic literature lesson",
+      "imageUrl": "https://images.unsplash.com/photo-1758811489552-a75d4e44d49c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhbmNpZW50JTIwc2Nyb2xsfGVufDB8fHx8MTc1ODg4Mzg5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ancient scroll"
+    },
+    {
+      "id": "lesson-calligraphy",
+      "description": "Arabic calligraphy lesson",
+      "imageUrl": "https://images.unsplash.com/photo-1551127481-43279ba6dec4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxpbmslMjBwZW58ZW58MHx8fHwxNzU4OTY1Mjc0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ink pen"
+    },
+    {
+      "id": "lesson-algebra",
+      "description": "Algebra lesson",
+      "imageUrl": "https://images.unsplash.com/photo-1509228468518-180dd4864904?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYXRoJTIwZXF1YXRpb25zfGVufDB8fHx8MTc1ODkyNzU5MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "math equations"
+    },
+    {
+      "id": "resource-guide",
+      "description": "Study guide resource",
+      "imageUrl": "https://images.unsplash.com/photo-1623466453024-1d31e5cd3605?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxub3RlYm9vayUyMHN0dWR5fGVufDB8fHx8MTc1ODg2MDg4OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "notebook study"
+    },
+    {
+      "id": "resource-video",
+      "description": "Video tutorial resource",
+      "imageUrl": "https://images.unsplash.com/photo-1694878981885-7647baf0d957?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dmlkZW8lMjBwbGF5fGVufDB8fHx8MTc1ODg3ODY5MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "video play"
+    }
+  ]
 }
