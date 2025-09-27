@@ -1,3 +1,4 @@
+
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -13,6 +14,7 @@ import {
 import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Link from 'next/link';
 
 const userAvatar = PlaceHolderImages.find((img) => img.id === 'user-avatar');
 
@@ -28,7 +30,8 @@ function getTitle(pathname: string) {
     }
     if (pathname.startsWith('/lessons')) return 'كل الدروس';
     if (pathname.startsWith('/library')) return 'مكتبة المصادر';
-    if (pathname === '/') return 'الخليل';
+    if (pathname.startsWith('/dashboard')) return 'لوحة التحكم';
+    if (pathname === '/') return 'منصة الخليل';
 
     return 'الخليل';
 }
@@ -42,7 +45,13 @@ export function Header() {
       <div className="flex items-center gap-2 md:hidden">
         <SidebarTrigger />
       </div>
-      <h1 className="text-lg font-semibold md:text-xl">{title}</h1>
+       <Link href="/" className="flex items-center gap-2 font-bold text-lg md:hidden">
+          <div className="w-6 h-6 flex items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-base">
+              خ
+          </div>
+          <span>الخليل</span>
+        </Link>
+      <h1 className="text-lg font-semibold md:text-xl hidden md:block">{title}</h1>
       <div className="ml-auto flex items-center gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

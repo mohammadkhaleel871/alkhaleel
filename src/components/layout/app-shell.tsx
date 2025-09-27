@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -13,6 +14,7 @@ import {
 } from '@/components/ui/sidebar';
 import {
   BookOpen,
+  Home,
   LayoutDashboard,
   Library,
   Settings,
@@ -31,11 +33,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   const menuItems = [
-    { href: '/', label: 'لوحة التحكم', icon: LayoutDashboard },
+    { href: '/', label: 'الرئيسية', icon: Home },
+    { href: '/dashboard', label: 'لوحة التحكم', icon: LayoutDashboard },
     { href: '/lessons', label: 'الدروس', icon: BookOpen },
     { href: '/library', label: 'المكتبة', icon: Library },
     { href: '/admin', label: 'المشرف', icon: Shield },
   ];
+
+  const isHomePage = pathname === '/';
+
+  if (isHomePage) {
+    return <main>{children}</main>;
+  }
 
   return (
     <SidebarProvider>
