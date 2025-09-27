@@ -15,10 +15,11 @@ import {
 import { grades, studentProgress } from "@/lib/mock-data";
 import { BookOpen, Percent, ClipboardCheck, Activity, Book, X } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import type { Lesson } from "@/lib/types";
 
-export default function GradeDashboardPage({ params }: { params: { id: string } }) {
+export default function GradeDashboardPage() {
+  const params = useParams<{ id: string }>();
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
   const [allLessons, setAllLessons] = useState<Lesson[]>([]);
   const [isLoading, setIsLoading] = useState(true);
