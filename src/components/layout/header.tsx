@@ -1,4 +1,3 @@
-
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -29,7 +28,7 @@ function getTitle(pathname: string) {
         return 'تفاصيل الدرس';
     }
     if (pathname.startsWith('/lessons')) return 'كل الدروس';
-    if (pathname.startsWith('/library')) return 'مكتبة المصادر';
+    if (pathname.startsWith('/library')) return 'المكتبة';
     if (pathname.startsWith('/dashboard')) return 'لوحة التحكم';
     if (pathname === '/') return 'منصة الخليل';
 
